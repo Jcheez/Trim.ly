@@ -2,7 +2,8 @@ import { RequestHandler } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 import {
   createShortcutReqBodyInterface,
-  createShortcutResBodyInterface
+  createShortcutResBodyInterface,
+  getShortcutReqParamsInterface
 } from '../interfaces/shortcut.interface';
 import Shortcut from '../models/shortcut.model';
 import User from '../models/user.model';
@@ -68,4 +69,24 @@ export const createShortcut: RequestHandler<
   }
 };
 
-// export const getShortcut: RequestHandler = (req, res) => {};
+export const getShortcut: RequestHandler<getShortcutReqParamsInterface> = async (req, res) => {
+
+  // Retrieve shortcut id from request params
+  const { shortcut } = req.params;
+
+  // Find if shortcut id present in db
+  const shortcutPresent = await Shortcut.findOne({ shortcut });
+
+  if (!shortcutPresent) {
+    return res.status(404).json({
+      code: 404,
+      message: 'Shortcut is invalid'
+    })
+  }
+
+  res.status(302).send({
+    code: 302,
+    redirect: shortcutPresent.original
+  })
+
+};
