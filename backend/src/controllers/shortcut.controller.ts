@@ -69,8 +69,9 @@ export const createShortcut: RequestHandler<
   }
 };
 
-export const getShortcut: RequestHandler<getShortcutReqParamsInterface> = async (req, res) => {
-
+export const getShortcut: RequestHandler<
+  getShortcutReqParamsInterface
+> = async (req, res) => {
   // Retrieve shortcut id from request params
   const { shortcut } = req.params;
 
@@ -81,12 +82,11 @@ export const getShortcut: RequestHandler<getShortcutReqParamsInterface> = async 
     return res.status(404).json({
       code: 404,
       message: 'Shortcut is invalid'
-    })
+    });
   }
 
   res.status(302).send({
     code: 302,
     redirect: shortcutPresent.original
-  })
-
+  });
 };

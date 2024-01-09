@@ -19,5 +19,5 @@ export interface createShortcutReqBodyInterface {
 export interface createShortcutResBodyInterface {}
 
 export interface getShortcutReqParamsInterface {
-  shortcut: string
+  shortcut: string;
 }

@@ -1,22 +1,20 @@
-import supertest from "supertest";
+import supertest from 'supertest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
+import { Request, Response, NextFunction } from 'express';
 import app from '../src/configs/express';
-import { Request, Response, NextFunction } from "express";
-import User from "../src/models/user.model";
 
 // Mock the verifyJWT middleware
 jest.mock('../src/middlewares/verifyJWT', () => ({
-  verifyJWT: (req:Request, res: Response, next: NextFunction) => next(),
+  verifyJWT: (req: Request, res: Response, next: NextFunction) => next()
 }));
 
 // Mock the verifyJWT middleware
 jest.mock('../src/middlewares/decryptJWT', () => ({
-  decryptJWT: (req:Request, res: Response, next: NextFunction) => next(),
+  decryptJWT: (req: Request, res: Response, next: NextFunction) => next()
 }));
 
 describe('Testing Shortcut Controller', () => {
-
   beforeAll(async () => {
     const mongoServer = await MongoMemoryServer.create();
     await mongoose.connect(mongoServer.getUri());
@@ -24,11 +22,13 @@ describe('Testing Shortcut Controller', () => {
 
   describe('Testing add route', () => {
     const BASE_ADD = '/api/shortcuts/add';
-    const sampleUser = supertest(app).post('/api/users/login').send({ email: 'abc@abc.com', password: 'abc123' });
+    const sampleUser = supertest(app)
+      .post('/api/users/login')
+      .send({ email: 'abc@abc.com', password: 'abc123' });
 
     describe('Given that uuid attribute does not exist when adding a shortcut', () => {
       it('should return a 400', async () => {
-        console.log(await sampleUser)
+        console.log(await sampleUser);
         const res = await supertest(app)
           .post(BASE_ADD)
           .send({ original: 'https://abc.com', shortcut: 'abc' });
@@ -56,5 +56,5 @@ describe('Testing Shortcut Controller', () => {
     //     expect(JSON.parse(res.text)).toEqual(expected);
     //   });
     // });
-  })
-})
+  });
+});

@@ -6,6 +6,8 @@ export const SERVER_PORT = process.env.SERVER_PORT || '3000';
 
 export const MONGO_DB_URL = process.env.MONGO_DB_URL || '';
 
+export const CORS_ORIGIN = process.env.CORS_ORIGIN || '';
+
 export const ACCESS_TOKEN_PUBLICKEY = process.env.ACCESS_TOKEN_PUBLICKEY || '';
 
 export const ACCESS_TOKEN_PRIVATEKEY =
