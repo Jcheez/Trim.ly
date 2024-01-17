@@ -2,19 +2,23 @@ import { RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { ParamsDictionary } from 'express-serve-static-core';
-import jose from 'node-jose';
 import {
   registerUserReqBodyInterface,
   registerUserResBodyInterface,
   loginUserResBodyInterface,
-  loginUserReqBodyInterface
+  loginUserReqBodyInterface,
+  decodedRefreshTokenInteraface
 } from '../interfaces/user.interface';
 import User from '../models/user.model';
 import {
   ACCESS_TOKEN_PRIVATEKEY,
   ENCRYPTION_PUBLICKEY,
-  REFRESH_TOKEN_PRIVATEKEY
+  REFRESH_TOKEN_PRIVATEKEY,
+  REFRESH_TOKEN_PUBLICKEY,
+  ACCESS_TOKEN_EXPIRY,
+  REFRESH_TOKEN_EXPIRY
 } from '../utils/constants';
+import { encryptToken, signTokenPayload } from '../utils/jwt';
 
 export const registerUser: RequestHandler<
   ParamsDictionary,
@@ -95,58 +99,38 @@ export const loginUser: RequestHandler<
 
     if (passwordMatch) {
       // Create Access Token
-      const accessTokenPrivateKey = Buffer.from(
-        ACCESS_TOKEN_PRIVATEKEY,
-        'base64'
-      ).toString();
-
       const accessTokenPayload = {
-        uuid: userFound._id
+        uuid: userFound.id
       };
 
-      // Signing Access Token
-      const accessToken = jwt.sign(accessTokenPayload, accessTokenPrivateKey, {
-        algorithm: 'RS256',
-        expiresIn: 3600
-      });
-
-      // Encrypting access token
-      const encryptionPublicKey = Buffer.from(
+      const signedAccessToken = await signTokenPayload(
+        ACCESS_TOKEN_PRIVATEKEY,
+        accessTokenPayload,
+        ACCESS_TOKEN_EXPIRY
+      );
+      const encryptedAccessToken = await encryptToken(
         ENCRYPTION_PUBLICKEY,
-        'base64'
-      ).toString();
-
-      const encryptionKey = await jose.JWK.asKey(encryptionPublicKey, 'pem');
-      const encryptedAccessToken = await jose.JWE.createEncrypt(
-        { format: 'compact' },
-        encryptionKey
-      )
-        .update(accessToken)
-        .final();
+        signedAccessToken
+      );
 
       // Create Refresh Token
-      const refreshTokenPrivateKey = Buffer.from(
-        REFRESH_TOKEN_PRIVATEKEY,
-        'base64'
-      ).toString();
-
       const refreshTokenPayload = {
-        uuid: userFound._id
+        uuid: userFound.id
       };
 
-      const refreshToken = jwt.sign(
+      const signedRefreshToken = await signTokenPayload(
+        REFRESH_TOKEN_PRIVATEKEY,
         refreshTokenPayload,
-        refreshTokenPrivateKey,
-        { algorithm: 'RS256', expiresIn: 60 * 60 * 24 }
+        REFRESH_TOKEN_EXPIRY
       );
 
       // Save refreshToken with currentUser
-      await userFound.updateOne({ refreshToken });
+      await userFound.updateOne({ refreshToken: signedRefreshToken });
 
       // Stpre refreshToken as cookie
-      res.cookie('jwt', refreshToken, {
+      res.cookie('jwt', signedRefreshToken, {
         httpOnly: true,
-        maxAge: 60 * 60 * 24 * 1000
+        maxAge: REFRESH_TOKEN_EXPIRY * 1000
       });
 
       return res.status(200).json({
@@ -166,4 +150,69 @@ export const loginUser: RequestHandler<
       message: 'Internal Server Error'
     });
   }
+};
+
+export const refreshUserAccess: RequestHandler = async (req, res) => {
+  const cookies = req.cookies;
+
+  // If no refresh token in request, user is not signed in / not even a user
+  if (!cookies?.jwt) {
+    return res.status(401).json({
+      code: 401,
+      message: 'Refresh token not found'
+    });
+  }
+  const refreshToken: string = cookies.jwt;
+
+  // Counter check if user is signed in according to DB
+  const foundUser = await User.findOne({ refreshToken });
+
+  if (!foundUser) {
+    return res.status(403).json({
+      code: 403,
+      message: 'Refresh token is invalid'
+    });
+  }
+
+  const refreshTokenPublicKey = Buffer.from(
+    REFRESH_TOKEN_PUBLICKEY,
+    'base64'
+  ).toString();
+
+  jwt.verify(refreshToken, refreshTokenPublicKey, async (err, decoded) => {
+    console.log(err);
+    console.log(decoded);
+    console.log(
+      foundUser.id !== (decoded as decodedRefreshTokenInteraface).uuid
+    );
+    if (
+      err ||
+      foundUser.id !== (decoded as decodedRefreshTokenInteraface).uuid
+    ) {
+      return res.status(403).json({
+        code: 403,
+        message: 'Refresh token validation failed'
+      });
+    }
+
+    // Make a new access token
+    const accessTokenPayload = {
+      uuid: foundUser.id
+    };
+
+    const signedAccessToken = await signTokenPayload(
+      ACCESS_TOKEN_PRIVATEKEY,
+      accessTokenPayload,
+      3600
+    );
+    const encryptedAccessToken = await encryptToken(
+      ENCRYPTION_PUBLICKEY,
+      signedAccessToken
+    );
+
+    return res.status(200).json({
+      code: 200,
+      data: { accessToken: encryptedAccessToken }
+    });
+  });
 };

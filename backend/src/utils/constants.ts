@@ -22,3 +22,13 @@ export const REFRESH_TOKEN_PUBLICKEY =
 
 export const REFRESH_TOKEN_PRIVATEKEY =
   process.env.REFRESH_TOKEN_PRIVATEKEY || '';
+
+export const ACCESS_TOKEN_EXPIRY = parseInt(
+  process.env.ACCESS_TOKEN_EXPIRY || '120',
+  10
+);
+
+export const REFRESH_TOKEN_EXPIRY = parseInt(
+  process.env.REFRESH_TOKEN_EXPIRY || '86400',
+  10
+);

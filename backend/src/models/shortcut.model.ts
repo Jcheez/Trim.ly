@@ -38,7 +38,7 @@ const shortcutSchema = new Schema<IShortcut>({
 
 shortcutSchema.pre('save', function (next) {
   if (this.shortcut === undefined) {
-    this.shortcut = this._id;
+    this.shortcut = this.id;
   }
   next();
 });

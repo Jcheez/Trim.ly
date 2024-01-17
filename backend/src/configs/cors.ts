@@ -3,5 +3,6 @@ import { CORS_ORIGIN } from '../utils/constants';
 
 export const corsConfig: CorsOptions = {
   origin: CORS_ORIGIN,
-  methods: ['GET', 'PUT', 'POST']
+  methods: ['GET', 'PUT', 'POST'],
+  credentials: true
 };

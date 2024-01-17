@@ -22,13 +22,12 @@ describe('Testing Shortcut Controller', () => {
 
   describe('Testing add route', () => {
     const BASE_ADD = '/api/shortcuts/add';
-    const sampleUser = supertest(app)
-      .post('/api/users/login')
-      .send({ email: 'abc@abc.com', password: 'abc123' });
+    // const sampleUser = supertest(app)
+    //   .post('/api/users/login')
+    //   .send({ email: 'abc@abc.com', password: 'abc123' });
 
     describe('Given that uuid attribute does not exist when adding a shortcut', () => {
       it('should return a 400', async () => {
-        console.log(await sampleUser);
         const res = await supertest(app)
           .post(BASE_ADD)
           .send({ original: 'https://abc.com', shortcut: 'abc' });

@@ -1,3 +1,4 @@
+import { JwtPayload } from 'jsonwebtoken';
 import { Document } from 'mongoose';
 
 export interface IUser extends Document {
@@ -22,3 +23,7 @@ export interface loginUserReqBodyInterface {
 }
 
 export interface loginUserResBodyInterface {}
+
+export interface decodedRefreshTokenInteraface extends JwtPayload {
+  uuid: string;
+}

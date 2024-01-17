@@ -54,7 +54,7 @@ export const createShortcut: RequestHandler<
     await Shortcut.create({
       shortcut: shortcut,
       original: original,
-      owner: shortcutOwner._id
+      owner: shortcutOwner.id
     });
 
     return res.status(201).json({

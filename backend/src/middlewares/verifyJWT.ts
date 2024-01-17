@@ -30,7 +30,12 @@ export const verifyJWT: RequestHandler<
 
     // Verifying decrypted access tokenx
     jwt.verify(token, accessTokenPublicKey, (err, decoded) => {
-      if (err) {
+      if (err && err.name === 'TokenExpiredError') {
+        return res.status(403).send({
+          code: 403,
+          message: 'Token expired'
+        });
+      } else if (err) {
         return res.status(403).send({
           code: 403,
           message: 'Unauthorized entry. Invalid token.'
