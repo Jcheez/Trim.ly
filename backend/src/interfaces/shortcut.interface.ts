@@ -10,6 +10,8 @@ export interface IShortcut extends Document {
   password: string;
 }
 
+
+// Interfaces for createShortcut controller
 export interface createShortcutReqBodyInterface {
   shortcut: string;
   original: string;
@@ -18,6 +20,14 @@ export interface createShortcutReqBodyInterface {
 
 export interface createShortcutResBodyInterface {}
 
+// Interfaces for getShortcut controller
 export interface getShortcutReqParamsInterface {
   shortcut: string;
 }
+
+// Interfaces for retrieveOwnerShortcutDetails controller
+export interface retrieveOwnerShortcutDetailsReqBodyInterface {
+  uuid: string
+}
+
+export interface retrieveOwnerShortcutDetailsResBodyInterface {}
