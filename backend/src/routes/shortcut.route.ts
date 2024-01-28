@@ -4,10 +4,17 @@ import {
   getShortcut,
   retrieveOwnerShortcutDetails
 } from '../controllers/shortcut.controller';
+import { verifyJWT } from '../middlewares/verifyJWT';
+import { decryptJWT } from '../middlewares/decryptJWT';
+
 const router = Router();
 
-router.post('/add', createShortcut);
 router.get('/retrieve/:shortcut', getShortcut);
-router.get('/all', retrieveOwnerShortcutDetails)
+
+// Initialise verifyJWT middleware
+router.use(decryptJWT, verifyJWT);
+
+router.post('/add', createShortcut);
+router.get('/all', retrieveOwnerShortcutDetails);
 
 export default router;

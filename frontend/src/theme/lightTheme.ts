@@ -4,6 +4,7 @@ import '@fontsource/poppins/400.css';
 declare module '@mui/material/Button' {
   interface ButtonPropsVariantOverrides {
     rounded: true;
+    'rounded-contained': true;
   }
 }
 
@@ -12,10 +13,17 @@ export const lightTheme = createTheme({
     mode: 'light',
     primary: {
       main: '#3144df'
+    },
+    secondary: {
+      main: '#003a66'
     }
   },
   typography: {
-    fontFamily: 'Poppins'
+    fontFamily: 'Poppins',
+    subtitle2: {
+      fontSize: '0.75rem',
+      color: 'gray'
+    }
   },
   components: {
     MuiAppBar: {
@@ -38,6 +46,13 @@ export const lightTheme = createTheme({
           }
         }
       ]
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          height: 100
+        }
+      }
     }
   }
 });

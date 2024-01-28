@@ -12,9 +12,15 @@ const shortcutSchema = new Schema<IShortcut>({
   },
 
   createdOn: {
-    type: Date,
+    type: String,
     required: true,
-    default: Date.now()
+    default: new Date()
+      .toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      })
+      .replace(',', '')
   },
 
   numClicks: {

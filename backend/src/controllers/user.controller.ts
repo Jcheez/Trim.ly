@@ -218,29 +218,29 @@ export const refreshUserAccess: RequestHandler = async (req, res) => {
 };
 
 export const logoutUser: RequestHandler = async (req, res) => {
-  const cookies = req.cookies
+  const cookies = req.cookies;
 
   // When there are no cookies, return 204
   if (!cookies?.jwt) {
     return res.send(204).json({
       code: 204,
       message: 'Logout Successful'
-    })
+    });
   }
-  const refreshToken: string = cookies.jwt
+  const refreshToken: string = cookies.jwt;
 
   // Check if refreshToken in DB
-  const userFound = await User.findOne({ refreshToken })
+  const userFound = await User.findOne({ refreshToken });
 
   // If token in DB, clear token
   if (userFound) {
-    await userFound.updateOne({}, { $unset: { refreshToken: "" } })
+    await userFound.updateOne({}, { $unset: { refreshToken: '' } });
   }
 
   // clear cookie, return 204
-  res.clearCookie('jwt', { httpOnly: true, maxAge: REFRESH_TOKEN_EXPIRY })
+  res.clearCookie('jwt', { httpOnly: true, maxAge: REFRESH_TOKEN_EXPIRY });
   return res.status(204).json({
     code: 204,
     message: 'Logout Successful'
-  })
-}
+  });
+};

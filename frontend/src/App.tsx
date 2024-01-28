@@ -8,6 +8,7 @@ import { AuthContext } from './contexts/authContext';
 import LandingPage from './pages/LandingPage';
 import NotFoundPage from './pages/NotFoundPage';
 import WithNavBarLayout from './layouts/WithNavbarLayout';
+import RedirectPage from './pages/RedirectPage';
 
 function App() {
   const { AuthenticatedRoutes, UnAuthenticatedRoutes } = useContext(AuthContext);
@@ -26,6 +27,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
           </Route>
+          <Route path='/:shortcut' element={<RedirectPage />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
     </div>

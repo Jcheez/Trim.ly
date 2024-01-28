@@ -88,35 +88,42 @@ export const getShortcut: RequestHandler<
       });
     }
 
-    return res.status(302).send({
-      code: 302,
+    return res.status(200).send({
+      code: 200,
       redirect: shortcutPresent.original
     });
   } catch (err) {
     return res.status(500).json({
       code: 500,
       message: 'Internal Server Error'
-    })
+    });
   }
 };
 
-export const retrieveOwnerShortcutDetails: RequestHandler<ParamsDictionary, retrieveOwnerShortcutDetailsResBodyInterface, retrieveOwnerShortcutDetailsReqBodyInterface> = async (req, res) => {
+export const retrieveOwnerShortcutDetails: RequestHandler<
+  ParamsDictionary,
+  retrieveOwnerShortcutDetailsResBodyInterface,
+  retrieveOwnerShortcutDetailsReqBodyInterface
+> = async (req, res) => {
   try {
     // uuid is retrieved from jwt token
-    const { uuid } = req.body
+    const { uuid } = req.body;
 
     //Find shortcuts that are created by this uuid
-    const links = await Shortcut.find({ owner: uuid }, { numClicks: 0, _id: 0, __v: 0, owner: 0 })
+    const links = await Shortcut.find(
+      { owner: uuid },
+      { numClicks: 0, _id: 0, __v: 0, owner: 0 }
+    );
 
     // Return the data back to requester
     res.status(200).send({
       code: 200,
       data: links
-    })
+    });
   } catch (err) {
     return res.status(500).json({
       code: 500,
       message: 'Internal Server Error'
-    })
+    });
   }
-}
+};

@@ -16,6 +16,16 @@ export interface ErrorAlertProps {
   message: string;
 }
 
+export interface ShortcutTableListProps {
+  linkData: linkDataInterface[]
+}
+
+export interface CreateShortcutDialogProps {
+  open: boolean,
+  onClose: () => void,
+  setLinkData: Dispatch<SetStateAction<linkDataInterface[]>>;
+}
+
 export interface authContextInterface {
   authState: string;
   setAuthState: Dispatch<SetStateAction<string>>;
@@ -28,3 +38,5 @@ export interface linkDataInterface {
   original: string,
   createdOn: string
 }
+
+

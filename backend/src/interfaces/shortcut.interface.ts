@@ -3,13 +3,12 @@ import { Document } from 'mongoose';
 export interface IShortcut extends Document {
   shortcut: string;
   original: string;
-  createdOn: Date;
+  createdOn: string;
   numClicks: number;
   clickLimit: number;
   owner: string;
   password: string;
 }
-
 
 // Interfaces for createShortcut controller
 export interface createShortcutReqBodyInterface {
@@ -27,7 +26,7 @@ export interface getShortcutReqParamsInterface {
 
 // Interfaces for retrieveOwnerShortcutDetails controller
 export interface retrieveOwnerShortcutDetailsReqBodyInterface {
-  uuid: string
+  uuid: string;
 }
 
 export interface retrieveOwnerShortcutDetailsResBodyInterface {}
