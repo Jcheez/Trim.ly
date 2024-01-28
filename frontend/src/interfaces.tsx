@@ -16,6 +16,13 @@ export interface ErrorAlertProps {
   message: string;
 }
 
+export interface CopiedAlertProps {
+  autoHideDuration: number;
+  handleClose: () => void;
+  open: boolean;
+  message: string;
+}
+
 export interface ShortcutTableListProps {
   linkData: linkDataInterface[]
 }
