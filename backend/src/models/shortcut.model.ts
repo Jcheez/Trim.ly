@@ -14,7 +14,7 @@ const shortcutSchema = new Schema<IShortcut>({
   createdOn: {
     type: String,
     required: true,
-    default: new Date()
+    default: () => new Date()
       .toLocaleDateString('en-GB', {
         day: '2-digit',
         month: 'short',
