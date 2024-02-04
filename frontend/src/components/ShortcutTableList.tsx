@@ -1,8 +1,9 @@
 import { Button, IconButton, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Settings';
 import React, { useState } from 'react'
-import { ShortcutTableListProps } from '../interfaces';
+import { ShortcutTableListProps, shortLinkDialogDataInterface } from '../interfaces';
 import CopiedAlert from './CopiedAlert';
+import ShortLinkSettingsDialog from './ShortLinkSettingsDialog';
 
 export default function ShortcutTableList(props: ShortcutTableListProps) {
 
@@ -11,12 +12,19 @@ export default function ShortcutTableList(props: ShortcutTableListProps) {
   // States
   const [isCopiedAlertOpen, setIsCopiedAlertOpen] = useState(false)
   const [copiedAlertMessage, setCopiedAlertMessage] = useState('')
+  const [shortLinkDialogOpen, setShortLinkDialogOpen] = useState(false)
+  const [shortLinkDialogData, setShortLinkDialogData] = useState<shortLinkDialogDataInterface>({shortcut: '', original: ''})
 
   // Functions
   const handleCopyButtonOnClick = (link: string) => {
     navigator.clipboard.writeText(link)
     setIsCopiedAlertOpen(true)
     setCopiedAlertMessage(`Copied link to clipboard: ${link}`)
+  }
+
+  const handleSettingsButtonOnClick = (shortcut: string, original: string) => {
+    setShortLinkDialogOpen(true)
+    setShortLinkDialogData({shortcut, original})
   }
 
   return (
@@ -40,7 +48,7 @@ export default function ShortcutTableList(props: ShortcutTableListProps) {
                 <Button variant='rounded' sx={{ fontSize: 13 }} onClick={() => handleCopyButtonOnClick(`${window.location.host}/${row.shortcut}`)}>Copy</Button>
               </TableCell>
               <TableCell sx={{ maxWidth: 30 }}>
-                <IconButton>
+                <IconButton onClick={() => handleSettingsButtonOnClick(row.shortcut, row.original)}>
                   <SettingsIcon />
                 </IconButton>
               </TableCell>
@@ -48,6 +56,7 @@ export default function ShortcutTableList(props: ShortcutTableListProps) {
           ))}
         </TableBody>
       </Table>
+      <ShortLinkSettingsDialog open={shortLinkDialogOpen} onClose={() => setShortLinkDialogOpen(false)} shortcut={shortLinkDialogData.shortcut} original={shortLinkDialogData.original}/>
       <CopiedAlert autoHideDuration={1000} handleClose={() => setIsCopiedAlertOpen(false)} open={isCopiedAlertOpen} message={copiedAlertMessage}/>
     </TableContainer>
   )

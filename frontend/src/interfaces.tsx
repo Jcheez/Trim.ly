@@ -33,6 +33,13 @@ export interface CreateShortcutDialogProps {
   setLinkData: Dispatch<SetStateAction<linkDataInterface[]>>;
 }
 
+export interface ShortLinkSettingsDialogProps {
+  open: boolean,
+  onClose: () => void,
+  shortcut: string,
+  original: string
+}
+
 export interface authContextInterface {
   authState: string;
   setAuthState: Dispatch<SetStateAction<string>>;
@@ -46,4 +53,12 @@ export interface linkDataInterface {
   createdOn: string
 }
 
+export interface shortLinkDialogDataInterface {
+  shortcut: string,
+  original: string
+}
 
+export interface updateObjectInterface {
+  original: string,
+  shortcut: string
+}

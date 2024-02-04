@@ -4,8 +4,13 @@ import {
   createShortcutReqBodyInterface,
   createShortcutResBodyInterface,
   getShortcutReqParamsInterface,
+  removeShortcutReqBodyInterface,
+  removeShortcutReqParamsInterface,
+  removeShortcutResBodyInterface,
   retrieveOwnerShortcutDetailsReqBodyInterface,
-  retrieveOwnerShortcutDetailsResBodyInterface
+  retrieveOwnerShortcutDetailsResBodyInterface,
+  updateShortcutReqBodyInterface,
+  updateShortcutResBodyInterface
 } from '../interfaces/shortcut.interface';
 import Shortcut from '../models/shortcut.model';
 import User from '../models/user.model';
@@ -99,6 +104,75 @@ export const getShortcut: RequestHandler<
     });
   }
 };
+
+export const removeShortcut: RequestHandler<removeShortcutReqParamsInterface, removeShortcutResBodyInterface, removeShortcutReqBodyInterface> = async (req, res) => {
+  try {
+    // Retrieve shortcut id from request params
+    const { shortcut } = req.params
+
+    // Retrieve uuid from request body
+    const { uuid } = req.body
+
+    // Perform delete operation
+    const deleteRes = await Shortcut.deleteOne({ shortcut, owner: uuid })
+
+    // Check if there is one document that is deleted
+    if (!deleteRes.deletedCount) {
+      return res.status(404).json({
+        code: 404,
+        message: 'Deleting invalid shortcut'
+      })
+    } else {
+      return res.status(204).send({})
+    }
+
+  } catch (err) {
+    return res.status(500).json({
+      code: 500,
+      message: 'Internal Server Error'
+    });
+  }
+}
+
+export const updateShortcut: RequestHandler<ParamsDictionary, updateShortcutResBodyInterface, updateShortcutReqBodyInterface> = async (req, res) => {
+  try {
+    // Retrieve original from request body
+    const { original, shortcut, uuid } = req.body
+
+    // Ensure that the fields are not undefined
+    if (!shortcut) {
+      return res.status(400).json({
+        code: 400,
+        message: 'Shortcut is a required field'
+      });
+    }
+
+    const updateObject: Partial<{original: string}> = {}
+
+    if (shortcut !== undefined) {
+      updateObject.original = original
+    }
+
+    // Proceed to update original link
+    const updateRes = await Shortcut.updateOne({ shortcut, owner: uuid }, updateObject)
+
+    if (!updateRes.modifiedCount) {
+      return res.status(404).json({
+        code: 404,
+        message: 'Shortcut not updated'
+      });
+    } else {
+      return res.status(204).json({})
+    }
+
+
+  } catch (err) {
+    return res.status(500).json({
+      code: 500,
+      message: 'Internal Server Error'
+    });
+  }
+}
 
 export const retrieveOwnerShortcutDetails: RequestHandler<
   ParamsDictionary,
