@@ -57,7 +57,10 @@ export default function CreateShortcutDialog(props: CreateShortcutDialogProps) {
             original: originalLink,
             createdOn: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(',', '')
           }])
-          onClose()
+          onClose();
+          // Clear shortcut details
+          setOriginalLink('');
+          setShortcutLink('');
         }
       })
         .catch(err => {
