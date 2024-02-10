@@ -8,6 +8,8 @@ import { AuthContext } from '../contexts/authContext';
 
 export default function SignupPage() {
   // States
+  const [isSignUpButtonDisabled, setIsSignUpButtonDisabled] = useState(false);
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,8 +25,10 @@ export default function SignupPage() {
   const { setAuthState } = useContext(AuthContext);
 
   // Functions
-  const handleRegisterUserOnClick = () => {
+  const handleRegisterUserOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (isUserDetailsValid(username, email, password)) {
+      setIsSignUpButtonDisabled(true)
       registerUser(username, email, password)
         .then(async (res) => {
           const responsePayload = res.data;
@@ -82,7 +86,7 @@ export default function SignupPage() {
   };
 
   return (
-    <Grid container spacing={0}>
+    <Grid container spacing={0} component={'form'} onSubmit={handleRegisterUserOnSubmit}>
       <Grid item xs={0} sm={2} md={4} lg={6}>
         <Box
           sx={{ bgcolor: lightTheme.palette.primary.main, height: '100vh' }}
@@ -146,9 +150,10 @@ export default function SignupPage() {
                 />
               </Stack>
               <Button
+                type='submit'
                 variant="contained"
                 size="large"
-                onClick={handleRegisterUserOnClick}
+                disabled={isSignUpButtonDisabled}
               >
                 Sign up
               </Button>
