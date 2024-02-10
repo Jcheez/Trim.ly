@@ -17,6 +17,8 @@ import { AuthContext } from '../contexts/authContext';
 
 export default function LoginPage() {
   // states
+  const [isSignInButtonDisabled, setIsSignInButtonDisabled] = useState(false)
+
   const [errorAlertOpen, setErrorAlertOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,8 +41,10 @@ export default function LoginPage() {
     setErrorAlertOpen(true);
   };
 
-  const handleLoginUserOnClick = () => {
+  const handleLoginUserOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (isUserDetailsValid(email)) {
+      setIsSignInButtonDisabled(true)
       signinUser(email, password)
         .then((res) => {
           const responsePayload = res.data;
@@ -94,7 +98,7 @@ export default function LoginPage() {
       </Grid>
       <Grid item xs={12} sm={10} md={8} lg={6}>
         <Box height={'100vh'} alignItems={'center'} display={'flex'}>
-          <Box pl={{ xs: 10, sm: 16 }} pr={{ xs: 10, sm: 16 }} width={'100%'}>
+          <Box pl={{ xs: 10, sm: 16 }} pr={{ xs: 10, sm: 16 }} width={'100%'} component={'form'} onSubmit={handleLoginUserOnSubmit}>
             <Stack spacing={7}>
               <Typography
                 variant="h4"
@@ -129,7 +133,8 @@ export default function LoginPage() {
               <Button
                 variant="contained"
                 size="large"
-                onClick={handleLoginUserOnClick}
+                type='submit'
+                disabled={isSignInButtonDisabled}
               >
                 Sign In
               </Button>
