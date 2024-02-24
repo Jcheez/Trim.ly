@@ -15,6 +15,8 @@ export default function ShortLinkSettingsDialog(props: ShortLinkSettingsDialogPr
   const [originalLink, setOriginalLink] = useState(original)
   const [originalError, setOriginalError] = useState('')
 
+  const [userClickDelete, setUserClickDelete] = useState(false)
+
   const { authState } = useContext(AuthContext)
 
   const navigate = useNavigate()
@@ -69,13 +71,20 @@ export default function ShortLinkSettingsDialog(props: ShortLinkSettingsDialogPr
     return isValid
   }
 
+  const handleDialogOnClose = () => {
+    onClose()
+    setTimeout(() => {
+      setUserClickDelete(false)
+    }, 500)
+  }
+
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth={'md'}>
+    <Dialog open={open} onClose={handleDialogOnClose} fullWidth maxWidth={'md'}>
       <Box p={2}>
         <DialogTitle mb={3}>
           <Box display={'flex'} justifyContent={'space-between'}>
             <Typography fontSize={30} color={'#003a66'} fontWeight={'bold'}>Settings for /{shortcut}</Typography>
-            <IconButton onClick={onClose}>
+            <IconButton onClick={handleDialogOnClose}>
               <CloseIcon />
             </IconButton>
           </Box>
@@ -97,8 +106,13 @@ export default function ShortLinkSettingsDialog(props: ShortLinkSettingsDialogPr
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions sx={{ pr: 3 }}>
-          <Button variant='outlined' color='error' sx={{ borderRadius: 100, textTransform: 'none' }} size='large' onClick={handleRemoveLinkButtonOnClick}>Remove Custom Link</Button>
+        <DialogActions sx={{ pr: 3, display: userClickDelete ? 'none' : 'flex'}}>
+            <Button variant='outlined' color='error' sx={{ borderRadius: 100, textTransform: 'none' }} size='large' onClick={() => setUserClickDelete(true)}>Remove Custom Link</Button>
+        </DialogActions>
+        <DialogActions sx={{ pr: 3, display: userClickDelete ? 'flex' : 'none'}}>
+            <Typography>Confirm Delete?</Typography>
+            <Button variant='outlined' color='error' sx={{ borderRadius: 100, textTransform: 'none' }} size='large' onClick={() => setUserClickDelete(false)}>Cancel</Button>
+            <Button variant='outlined' color='error' sx={{ borderRadius: 100, textTransform: 'none' }} size='large' onClick={handleRemoveLinkButtonOnClick}>Confirm</Button>
         </DialogActions>
       </Box>
     </Dialog>
