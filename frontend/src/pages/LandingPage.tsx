@@ -26,7 +26,7 @@ export default function LandingPage() {
     <>
       <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} height={'80px'}>
         <Typography fontSize={30} color={'#003a66'} fontWeight={'bold'}>
-          {linkData.length} Links
+          {linkData.length > 1 ? `${linkData.length} Links` : `${linkData.length} Link`}
         </Typography>
         <Button onClick={() => setCreateShortcutDialogOpen(true)} variant='contained' color='secondary' sx={{borderRadius: 100, textTransform: 'none'}} size='large'>Create Shortcut</Button>
       </Box>
