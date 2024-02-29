@@ -24,14 +24,27 @@ export default function LandingPage() {
 
   return (
     <>
-      <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} height={'80px'}>
-        <Typography fontSize={30} color={'#003a66'} fontWeight={'bold'}>
-          {linkData.length} Links
-        </Typography>
-        <Button onClick={() => setCreateShortcutDialogOpen(true)} variant='contained' color='secondary' sx={{borderRadius: 100, textTransform: 'none'}} size='large'>Create Shortcut</Button>
-      </Box>
-      <ShortcutTableList linkData={linkData}/>
-      <CreateShortcutDialog open={createShortcutDialogOpen} onClose={() => setCreateShortcutDialogOpen(false)} setLinkData={setLinkData}/>
+      {linkData.length ? (
+        <>
+          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} height={'80px'}>
+            <Typography fontSize={30} color={'#003a66'} fontWeight={'bold'}>
+              {linkData.length > 1 ? `${linkData.length} Links` : `${linkData.length} Link`}
+            </Typography>
+            <Button onClick={() => setCreateShortcutDialogOpen(true)} variant='contained' color='secondary' sx={{ borderRadius: 100, textTransform: 'none' }} size='large'>Create Shortcut</Button>
+          </Box>
+          <ShortcutTableList linkData={linkData} />
+        </>
+      ) : (
+        <>
+          <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} height={'calc(100vh - 80px)'}>
+            <Typography fontSize={30} color={'#003a66'} fontWeight={'bold'} mb={2}>
+              You have no short links.
+            </Typography>
+            <Button onClick={() => setCreateShortcutDialogOpen(true)} variant='contained' color='secondary' sx={{ borderRadius: 100, textTransform: 'none' }} size='large'>Create my First Short Link</Button>
+          </Box>
+        </>
+      )}
+      <CreateShortcutDialog open={createShortcutDialogOpen} onClose={() => setCreateShortcutDialogOpen(false)} setLinkData={setLinkData} />
     </>
   );
 }
