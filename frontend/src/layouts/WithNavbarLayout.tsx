@@ -7,7 +7,7 @@ export default function WithNavBarLayout() {
 	return (
 		<>
 			<LandingNavbar />
-      <Box sx={{px: {md:'100px', lg: '200px' , xl: '400px'}}}>
+      <Box sx={{px: {xs:'25px', sm: '50px', md:'100px', lg: '200px' , xl: '400px'}}}>
 			  <Outlet />
       </Box>
 		</>
