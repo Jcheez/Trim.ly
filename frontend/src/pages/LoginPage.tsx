@@ -52,6 +52,7 @@ export default function LoginPage() {
           navigate('/main');
         })
         .catch((err) => {
+          setIsSignInButtonDisabled(false)
           const errorPayload = err.response.data;
           console.error(`Error: ${errorPayload.message}`);
           if (errorPayload.code === 401) {
