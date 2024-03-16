@@ -14,13 +14,14 @@ const shortcutSchema = new Schema<IShortcut>({
   createdOn: {
     type: String,
     required: true,
-    default: () => new Date()
-      .toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric'
-      })
-      .replace(',', '')
+    default: () =>
+      new Date()
+        .toLocaleDateString('en-GB', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric'
+        })
+        .replace(',', '')
   },
 
   numClicks: {

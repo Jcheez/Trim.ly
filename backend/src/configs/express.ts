@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import userRoute from '../routes/user.route';
 import shortcutRoute from '../routes/shortcut.route';
+import sgidRoute from '../routes/sgid.route';
 import { corsConfig } from './cors';
 const app: Application = express();
 
@@ -12,5 +13,6 @@ app.use(cookieParser()); // Middleware for parsing cookies
 
 app.use('/api/users', userRoute);
 app.use('/api/shortcuts', shortcutRoute);
+app.use('/api/oauth/sgid', sgidRoute);
 
 export default app;

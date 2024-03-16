@@ -222,7 +222,7 @@ export const logoutUser: RequestHandler = async (req, res) => {
 
   // When there are no cookies, return 204
   if (!cookies?.jwt) {
-    return res.send(204).json({
+    return res.status(204).json({
       code: 204,
       message: 'Logout Successful'
     });

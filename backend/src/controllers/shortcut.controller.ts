@@ -105,39 +105,46 @@ export const getShortcut: RequestHandler<
   }
 };
 
-export const removeShortcut: RequestHandler<removeShortcutReqParamsInterface, removeShortcutResBodyInterface, removeShortcutReqBodyInterface> = async (req, res) => {
+export const removeShortcut: RequestHandler<
+  removeShortcutReqParamsInterface,
+  removeShortcutResBodyInterface,
+  removeShortcutReqBodyInterface
+> = async (req, res) => {
   try {
     // Retrieve shortcut id from request params
-    const { shortcut } = req.params
+    const { shortcut } = req.params;
 
     // Retrieve uuid from request body
-    const { uuid } = req.body
+    const { uuid } = req.body;
 
     // Perform delete operation
-    const deleteRes = await Shortcut.deleteOne({ shortcut, owner: uuid })
+    const deleteRes = await Shortcut.deleteOne({ shortcut, owner: uuid });
 
     // Check if there is one document that is deleted
     if (!deleteRes.deletedCount) {
       return res.status(404).json({
         code: 404,
         message: 'Deleting invalid shortcut'
-      })
+      });
     } else {
-      return res.status(204).send({})
+      return res.status(204).send({});
     }
-
   } catch (err) {
     return res.status(500).json({
       code: 500,
       message: 'Internal Server Error'
     });
   }
-}
+};
 
-export const updateShortcut: RequestHandler<ParamsDictionary, updateShortcutResBodyInterface, updateShortcutReqBodyInterface> = async (req, res) => {
+export const updateShortcut: RequestHandler<
+  ParamsDictionary,
+  updateShortcutResBodyInterface,
+  updateShortcutReqBodyInterface
+> = async (req, res) => {
   try {
     // Retrieve original from request body
-    const { original, shortcut, uuid } = req.body
+    const { original, shortcut, uuid } = req.body;
 
     // Ensure that the fields are not undefined
     if (!shortcut) {
@@ -147,14 +154,17 @@ export const updateShortcut: RequestHandler<ParamsDictionary, updateShortcutResB
       });
     }
 
-    const updateObject: Partial<{original: string}> = {}
+    const updateObject: Partial<{ original: string }> = {};
 
     if (shortcut !== undefined) {
-      updateObject.original = original
+      updateObject.original = original;
     }
 
     // Proceed to update original link
-    const updateRes = await Shortcut.updateOne({ shortcut, owner: uuid }, updateObject)
+    const updateRes = await Shortcut.updateOne(
+      { shortcut, owner: uuid },
+      updateObject
+    );
 
     if (!updateRes.modifiedCount) {
       return res.status(404).json({
@@ -162,17 +172,15 @@ export const updateShortcut: RequestHandler<ParamsDictionary, updateShortcutResB
         message: 'Shortcut not updated'
       });
     } else {
-      return res.status(204).json({})
+      return res.status(204).json({});
     }
-
-
   } catch (err) {
     return res.status(500).json({
       code: 500,
       message: 'Internal Server Error'
     });
   }
-}
+};
 
 export const retrieveOwnerShortcutDetails: RequestHandler<
   ParamsDictionary,
