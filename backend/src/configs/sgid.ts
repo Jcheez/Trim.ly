@@ -1,6 +1,5 @@
 import { SgidClient } from '@opengovsg/sgid-client';
 import {
-  SERVER_PORT,
   SGID_CLIENT_ID,
   SGID_CLIENT_SECRET,
   SGID_PRIVATE_KEY,
