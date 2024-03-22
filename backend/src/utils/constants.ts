@@ -32,3 +32,11 @@ export const REFRESH_TOKEN_EXPIRY = parseInt(
   process.env.REFRESH_TOKEN_EXPIRY || '86400',
   10
 );
+
+export const SGID_CLIENT_ID = String(process.env.SGID_CLIENT_ID || '');
+
+export const SGID_CLIENT_SECRET = String(process.env.SGID_CLIENT_SECRET || '');
+
+export const SGID_PRIVATE_KEY = String(process.env.SGID_PRIVATE_KEY || '');
+
+export const SGID_REDIRECT_URI = String(process.env.SGID_REDIRECT_URI || '')

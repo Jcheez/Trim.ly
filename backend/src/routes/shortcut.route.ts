@@ -18,7 +18,7 @@ router.use(decryptJWT, verifyJWT);
 
 router.post('/add', createShortcut);
 router.get('/all', retrieveOwnerShortcutDetails);
-router.delete('/remove/:shortcut', removeShortcut)
-router.put('/update', updateShortcut)
+router.delete('/remove/:shortcut', removeShortcut);
+router.put('/update', updateShortcut);
 
 export default router;

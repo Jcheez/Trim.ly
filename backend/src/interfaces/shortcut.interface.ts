@@ -44,9 +44,9 @@ export interface retrieveOwnerShortcutDetailsResBodyInterface {}
 
 // Interfaces for updateShortcut controller
 export interface updateShortcutReqBodyInterface {
-  original: string,
-  shortcut: string,
-  uuid: string
+  original: string;
+  shortcut: string;
+  uuid: string;
 }
 
 export interface updateShortcutResBodyInterface {}
