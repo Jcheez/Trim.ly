@@ -14,6 +14,7 @@ import TextFieldWithTitle from '../components/TextFieldWithTitle';
 import ErrorAlert from '../components/ErrorAlert';
 import { signinUser } from '../adaptors/userAdaptor';
 import { AuthContext } from '../contexts/authContext';
+import { getAuthorizationUrl } from '../adaptors/sgidAdaptor';
 
 export default function LoginPage() {
   // states
@@ -74,6 +75,12 @@ export default function LoginPage() {
 
     return isValid;
   };
+
+  const handleSingpassButtonOnClick = () => {
+    getAuthorizationUrl().then(res => {
+      window.location.href = res.data.redirect
+    })
+  }
 
   return (
     <Grid container spacing={0}>
@@ -146,7 +153,7 @@ export default function LoginPage() {
               <Button
                 variant="contained"
                 size="large"
-                onClick={handleErrorAlertOpen}
+                onClick={handleSingpassButtonOnClick}
               >
                 Sign In with
                 <img
