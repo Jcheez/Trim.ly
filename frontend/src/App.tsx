@@ -9,6 +9,7 @@ import LandingPage from './pages/LandingPage';
 import NotFoundPage from './pages/NotFoundPage';
 import WithNavBarLayout from './layouts/WithNavbarLayout';
 import RedirectPage from './pages/RedirectPage';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   const { AuthenticatedRoutes, UnAuthenticatedRoutes } = useContext(AuthContext);
@@ -19,7 +20,7 @@ function App() {
           <Route element={<AuthenticatedRoutes />}>
             <Route element={<WithNavBarLayout />}>
               <Route path="/main" element={<LandingPage />} />
-              <Route path="/main2" element={<LandingPage />} />
+              <Route path="/acc" element={<ProfilePage />} />
             </Route>
           </Route>
           <Route element={<UnAuthenticatedRoutes />}>

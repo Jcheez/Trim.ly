@@ -26,7 +26,7 @@ export default function LandingPage() {
     <>
       {linkData.length ? (
         <>
-          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} height={'80px'}>
+          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
             <Typography fontSize={30} color={'#003a66'} fontWeight={'bold'}>
               {linkData.length > 1 ? `${linkData.length} Links` : `${linkData.length} Link`}
             </Typography>

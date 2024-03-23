@@ -5,16 +5,24 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AuthContext } from '../contexts/authContext';
 import { signoutUser } from '../adaptors/userAdaptor';
+import { useNavigate } from 'react-router-dom';
 
 export default function LandingNavbar() {
 
   // Authcontext
   const { setAuthState } = useContext(AuthContext);
 
+  // Navigate
+  const navigate = useNavigate();
+
   // Functions
   const handleSignOutUserOnClick = () => {
     setAuthState('') // TODO: Might need to define helper functions in auth context for clearing state and defining state
     signoutUser().then(res => console.log(res.data))
+  }
+
+  const handleProfileOnClick = () => {
+    navigate('/acc');
   }
 
   return (
@@ -38,7 +46,7 @@ export default function LandingNavbar() {
             TRIMLY
           </Typography>
           <Stack sx={{ display: { xs: 'none', sm: 'flex' } }} spacing={2} direction={'row'}>
-            <Button variant='rounded'>Profile</Button>
+            <Button variant='rounded' onClick={handleProfileOnClick}>Profile</Button>
             <Button variant='rounded' onClick={handleSignOutUserOnClick}>Sign out</Button>
           </Stack>
 
