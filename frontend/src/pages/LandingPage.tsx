@@ -36,7 +36,7 @@ export default function LandingPage() {
         </>
       ) : (
         <>
-          <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} height={'calc(100vh - 80px)'}>
+          <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} height={'calc(100vh - 104px)'}>
             <Typography fontSize={30} color={'#003a66'} fontWeight={'bold'} mb={2}>
               You have no short links.
             </Typography>

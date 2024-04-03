@@ -32,3 +32,7 @@ export const refreshUserAccess = () => {
 export const signoutUser = () => {
   return axios.get(`${BASE}/logout`, { withCredentials: true })
 }
+
+export const retrieveProfile = (token: string) => {
+  return axios.get(`${BASE}/profile`, { withCredentials: true, headers: { authorization: `Bearer ${token}` }})
+}
