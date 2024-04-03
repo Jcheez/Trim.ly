@@ -7,7 +7,9 @@ import {
   registerUserResBodyInterface,
   loginUserResBodyInterface,
   loginUserReqBodyInterface,
-  decodedRefreshTokenInteraface
+  decodedRefreshTokenInteraface,
+  retrieveUserProfileResBodyInterface,
+  retrieveUserProfileReqBodyInterface
 } from '../interfaces/user.interface';
 import User from '../models/user.model';
 import {
@@ -244,3 +246,33 @@ export const logoutUser: RequestHandler = async (req, res) => {
     message: 'Logout Successful'
   });
 };
+
+export const retrieveUserProfile: RequestHandler<ParamsDictionary, retrieveUserProfileResBodyInterface, retrieveUserProfileReqBodyInterface> = async (req, res) => {
+  try {
+    // Retrieved from accessToken
+    const { uuid } = req.body
+
+    const userFound = await User.findById(uuid);
+
+    if (!userFound) {
+      return res.status(401).json({
+        code: 401,
+        message: 'Unauthorized entry'
+      })
+    }
+
+    return res.status(200).json({
+      code: 200,
+      data: {
+        username: userFound.username
+      }
+    })
+
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      code: 500,
+      message: 'Internal Server Error'
+    });
+  }
+}

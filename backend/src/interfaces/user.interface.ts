@@ -24,6 +24,12 @@ export interface loginUserReqBodyInterface {
 
 export interface loginUserResBodyInterface {}
 
+export interface retrieveUserProfileReqBodyInterface {
+  uuid: string;
+}
+
+export interface retrieveUserProfileResBodyInterface {}
+
 export interface decodedRefreshTokenInteraface extends JwtPayload {
   uuid: string;
 }

@@ -3,13 +3,21 @@ import {
   loginUser,
   logoutUser,
   refreshUserAccess,
-  registerUser
+  registerUser,
+  retrieveUserProfile
 } from '../controllers/user.controller';
+import { decryptJWT } from '../middlewares/decryptJWT';
+import { verifyJWT } from '../middlewares/verifyJWT';
 const router = Router();
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.get('/refresh', refreshUserAccess);
 router.get('/logout', logoutUser);
+
+// Initialise verifyJWT middleware
+router.use(decryptJWT, verifyJWT);
+
+router.get('/profile', retrieveUserProfile)
 
 export default router;
