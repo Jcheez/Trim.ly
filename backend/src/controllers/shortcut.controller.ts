@@ -198,7 +198,7 @@ export const retrieveOwnerShortcutDetails: RequestHandler<
     );
 
     // Return the data back to requester
-    res.status(200).send({
+    res.status(200).json({
       code: 200,
       data: links
     });
