@@ -30,6 +30,13 @@ export interface retrieveUserProfileReqBodyInterface {
 
 export interface retrieveUserProfileResBodyInterface {}
 
+export interface updateUsernameReqBodyInterface {
+  uuid: string;
+  username: string
+}
+
+export interface updateUsernameResBodyInterface {}
+
 export interface decodedRefreshTokenInteraface extends JwtPayload {
   uuid: string;
 }

@@ -34,5 +34,9 @@ export const signoutUser = () => {
 }
 
 export const retrieveProfile = (token: string) => {
-  return axios.get(`${BASE}/profile`, { withCredentials: true, headers: { authorization: `Bearer ${token}` }})
+  return axios.get(`${BASE}/profile`, { withCredentials: true, headers: { authorization: `Bearer ${token}` } })
+}
+
+export const updateUsername = (newUserName: string, token: string) => {
+  return axios.put(`${BASE}/update/name`, { username: newUserName }, { withCredentials: true, headers: { authorization: `Bearer ${token}` } })
 }

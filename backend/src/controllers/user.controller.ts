@@ -9,7 +9,9 @@ import {
   loginUserReqBodyInterface,
   decodedRefreshTokenInteraface,
   retrieveUserProfileResBodyInterface,
-  retrieveUserProfileReqBodyInterface
+  retrieveUserProfileReqBodyInterface,
+  updateUsernameResBodyInterface,
+  updateUsernameReqBodyInterface
 } from '../interfaces/user.interface';
 import User from '../models/user.model';
 import {
@@ -268,6 +270,33 @@ export const retrieveUserProfile: RequestHandler<ParamsDictionary, retrieveUserP
       }
     })
 
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      code: 500,
+      message: 'Internal Server Error'
+    });
+  }
+}
+
+export const updateUsername: RequestHandler<ParamsDictionary, updateUsernameResBodyInterface, updateUsernameReqBodyInterface> = async (req, res) => {
+  try {
+    // Retrieved from accessToken
+    const { uuid, username } = req.body
+
+    const userFound = await User.findById(uuid)
+
+    if (!userFound) {
+      return res.status(401).json({
+        code: 401,
+        message: 'Unauthorized entry'
+      })
+    }
+
+    // Update username with new one
+    await userFound.updateOne({ username })
+
+    return res.status(204).json({});
   } catch (err) {
     console.log(err);
     return res.status(500).json({

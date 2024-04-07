@@ -2,7 +2,7 @@ import { Button, Grid, Stack, Typography } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import TextFieldWithTitle from '../components/TextFieldWithTitle'
 import useFetchData from '../hooks/useFetchData';
-import { retrieveProfile } from '../adaptors/userAdaptor';
+import { retrieveProfile, updateUsername } from '../adaptors/userAdaptor';
 import { AuthContext } from '../contexts/authContext';
 
 export default function ProfilePage() {
@@ -11,8 +11,8 @@ export default function ProfilePage() {
   const { authState } = useContext(AuthContext);
 
   // Fetch Data
-  const adaptor = retrieveProfile(authState)
-  const { data, loading } = useFetchData(adaptor);
+  const retrieveProfileAdaptor = retrieveProfile(authState)
+  const { data, loading } = useFetchData(retrieveProfileAdaptor);
 
   // States
   const [username, setUsername] = useState('');
@@ -30,6 +30,44 @@ export default function ProfilePage() {
       setUsername(data.data.username)
     }
   }, [loading, data])
+
+  const handleUpdateUsernameOnclick = () => {
+
+    if (isUsernameValid(username)) {
+      console.log("NEW USERNAME IS VALID")
+      updateUsername(username, authState)
+        .then(res => {
+          if (res.status === 204) {
+            console.log("Username successfully updated")
+          }
+        })
+        .catch(err => {
+          const errorPayload = err.response.data;
+          console.error(`Error: ${errorPayload.message}`);
+          setUsernameError(errorPayload.message);
+        })
+    }
+  }
+
+  /**
+ * A helper function which validates the user's username
+ * @param username The user's desired username
+ * @returns
+ */
+  const isUsernameValid = (
+    username: string,
+  ) => {
+    console.log(username, "CALLED")
+    setUsernameError('');
+    let isValid = true;
+
+    if (username.length < 8) {
+      isValid = false;
+      setUsernameError('Username must be at least 8 characters');
+    }
+
+    return isValid;
+  };
 
   return (
     <>
@@ -68,6 +106,7 @@ export default function ProfilePage() {
                   textTransform: 'none'
                 }}
                 size='large'
+                onClick={handleUpdateUsernameOnclick}
               >
                 Save Changes
               </Button>
