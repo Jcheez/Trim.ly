@@ -1,3 +1,4 @@
+import { AlertColor } from '@mui/material';
 import React, { Dispatch, SetStateAction } from 'react';
 
 export interface TextFieldWithTitleProps {
@@ -9,18 +10,12 @@ export interface TextFieldWithTitleProps {
   error: string;
 }
 
-export interface ErrorAlertProps {
+export interface PopupAlertProps {
   autoHideDuration: number;
   handleClose: () => void;
   open: boolean;
   message: string;
-}
-
-export interface CopiedAlertProps {
-  autoHideDuration: number;
-  handleClose: () => void;
-  open: boolean;
-  message: string;
+  type: AlertColor | undefined;
 }
 
 export interface ShortcutTableListProps {
