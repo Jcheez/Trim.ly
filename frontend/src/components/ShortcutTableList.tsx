@@ -3,7 +3,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import React, { useState } from 'react'
 import { ShortcutTableListProps, shortLinkDialogDataInterface } from '../interfaces';
 import ShortLinkSettingsDialog from './ShortLinkSettingsDialog';
-import PopupAlert from './PopUpAlert';
+import PopupAlert from './PopupAlert';
 
 export default function ShortcutTableList(props: ShortcutTableListProps) {
 
