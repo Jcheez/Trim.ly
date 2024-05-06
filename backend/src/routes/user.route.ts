@@ -5,6 +5,7 @@ import {
   refreshUserAccess,
   registerUser,
   retrieveUserProfile,
+  updatePassword,
   updateUsername
 } from '../controllers/user.controller';
 import { decryptJWT } from '../middlewares/decryptJWT';
@@ -21,5 +22,6 @@ router.use(decryptJWT, verifyJWT);
 
 router.get('/profile', retrieveUserProfile)
 router.put('/update/name', updateUsername)
+router.put('/update/pw', updatePassword)
 
 export default router;

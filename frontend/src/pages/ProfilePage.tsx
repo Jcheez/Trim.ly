@@ -2,7 +2,7 @@ import { Button, Grid, Stack, Typography } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import TextFieldWithTitle from '../components/TextFieldWithTitle'
 import useFetchData from '../hooks/useFetchData';
-import { retrieveProfile, updateUsername } from '../adaptors/userAdaptor';
+import { retrieveProfile, updatePassword, updateUsername } from '../adaptors/userAdaptor';
 import { AuthContext } from '../contexts/authContext';
 import PopupAlert from '../components/PopupAlert';
 
@@ -11,9 +11,8 @@ export default function ProfilePage() {
   // Define Auth Context
   const { authState } = useContext(AuthContext);
 
-  // Fetch Data
-  const retrieveProfileAdaptor = retrieveProfile(authState)
-  const { data, loading } = useFetchData(retrieveProfileAdaptor);
+  // State for page loading
+  const [loading, setLoading] = useState(true)
 
   // States
   const [username, setUsername] = useState('');
@@ -30,10 +29,17 @@ export default function ProfilePage() {
   const [popupAlertMessage, setPopupAlertMessage] = useState('')
 
   useEffect(() => {
-    if (!loading && data.code === 200) {
-      setUsername(data.data.username)
-    }
-  }, [loading, data])
+
+    // Fetch Profile Data
+    retrieveProfile(authState)
+    .then(res => {
+      if (res.data.code === 200) {
+        // console.log(res.data.data.username)
+        setLoading(false)
+        setUsername(res.data.data.username)
+      }
+    })
+  }, [authState])
 
   const handleUpdateUsernameOnclick = () => {
 
@@ -73,6 +79,65 @@ export default function ProfilePage() {
 
     return isValid;
   };
+
+  const arePasswordsValid = (oldPassword: string, newPassword: string, passwordConfirmation: string) => {
+
+    setOldPasswordError('')
+    setNewPasswordError('')
+    setPasswordConfirmationError('')
+
+    let isValid = true;
+
+    if (!/^(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(oldPassword)) {
+      isValid = false;
+      setOldPasswordError(
+        'Password must be at least 8 characters with at least 1 uppercase letter and 1 lowercase letter'
+      );
+    }
+
+    if (!/^(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(newPassword)) {
+      isValid = false;
+      setNewPasswordError(
+        'Password must be at least 8 characters with at least 1 uppercase letter and 1 lowercase letter'
+      );
+    }
+
+    if (!/^(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(passwordConfirmation)) {
+      isValid = false;
+      setPasswordConfirmationError(
+        'Password must be at least 8 characters with at least 1 uppercase letter and 1 lowercase letter'
+      );
+    }
+
+    if (oldPassword === passwordConfirmation) {
+      isValid = false;
+      setPasswordConfirmationError('Old and new password cannot be the same!')
+    }
+
+    if (newPassword !== passwordConfirmation) {
+      isValid = false;
+      setPasswordConfirmationError('Password does not match! Try again')
+    }
+
+    return isValid
+  }
+
+  const handleUpdatePasswordOnClick = () => {
+    if (arePasswordsValid(oldPassword, newPassword, passwordConfirmation)) {
+      updatePassword(oldPassword, passwordConfirmation, authState)
+        .then(res => {
+          if (res.status === 204) {
+            setPopupAlertMessage('Password has been successfully updated')
+            setIsPopupAlertOpen(true)
+          }
+        })
+        .catch(err => {
+          const errorPayload = err.response.data;
+          console.error(`Error: ${errorPayload.message}`);
+          setPasswordConfirmationError(errorPayload.message);
+        })
+    }
+  }
 
   return (
     <>
@@ -168,6 +233,7 @@ export default function ProfilePage() {
                     textTransform: 'none'
                   }}
                   size='large'
+                  onClick={handleUpdatePasswordOnClick}
                 >
                   Save Changes
                 </Button>
@@ -205,7 +271,7 @@ export default function ProfilePage() {
               </Grid>
             </Grid>
           </Stack>
-          <PopupAlert autoHideDuration={3000} handleClose={() => setIsPopupAlertOpen(false)} open={isPopupAlertOpen} message={popupAlertMessage} type={'success'}/>
+          <PopupAlert autoHideDuration={3000} handleClose={() => setIsPopupAlertOpen(false)} open={isPopupAlertOpen} message={popupAlertMessage} type={'success'} />
         </>
       )}
     </>

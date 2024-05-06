@@ -11,7 +11,9 @@ import {
   retrieveUserProfileResBodyInterface,
   retrieveUserProfileReqBodyInterface,
   updateUsernameResBodyInterface,
-  updateUsernameReqBodyInterface
+  updateUsernameReqBodyInterface,
+  updatePasswordResBodyInterface,
+  updatePasswordReqBodyInterface
 } from '../interfaces/user.interface';
 import User from '../models/user.model';
 import {
@@ -297,6 +299,43 @@ export const updateUsername: RequestHandler<ParamsDictionary, updateUsernameResB
     await userFound.updateOne({ username })
 
     return res.status(204).json({});
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      code: 500,
+      message: 'Internal Server Error'
+    });
+  }
+}
+
+export const updatePassword: RequestHandler<ParamsDictionary, updatePasswordResBodyInterface, updatePasswordReqBodyInterface> = async (req, res) => {
+  try {
+    const { oldPassword, newPassword, uuid } = req.body
+
+    const userFound = await User.findById(uuid)
+
+    if (!userFound) {
+      return res.status(401).json({
+        code: 401,
+        message: 'Unauthorized entry'
+      })
+    }
+
+    // Compare oldPassword with password in DB
+    const passwordMatch = await bcrypt.compare(oldPassword, userFound.password);
+
+    if (!passwordMatch) {
+      return res.status(400).json({
+        code: 400,
+        message: 'Current Password is incorrect'
+      })
+    }
+
+    // Password matches, update with new Password
+    await userFound.updateOne({password: await bcrypt.hash(newPassword, 10)})
+
+    return res.status(204).json({});
+
   } catch (err) {
     console.log(err);
     return res.status(500).json({

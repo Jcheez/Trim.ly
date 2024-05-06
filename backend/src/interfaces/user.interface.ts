@@ -37,6 +37,14 @@ export interface updateUsernameReqBodyInterface {
 
 export interface updateUsernameResBodyInterface {}
 
+export interface updatePasswordReqBodyInterface {
+  oldPassword: string;
+  newPassword: string;
+  uuid: string;
+}
+
+export interface updatePasswordResBodyInterface {}
+
 export interface decodedRefreshTokenInteraface extends JwtPayload {
   uuid: string;
 }
