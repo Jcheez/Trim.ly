@@ -13,7 +13,9 @@ import {
   updateUsernameResBodyInterface,
   updateUsernameReqBodyInterface,
   updatePasswordResBodyInterface,
-  updatePasswordReqBodyInterface
+  updatePasswordReqBodyInterface,
+  deleteUserAccountResBodyInterface,
+  deleteUserAccountReqBodyInterface
 } from '../interfaces/user.interface';
 import User from '../models/user.model';
 import {
@@ -22,9 +24,12 @@ import {
   REFRESH_TOKEN_PRIVATEKEY,
   REFRESH_TOKEN_PUBLICKEY,
   ACCESS_TOKEN_EXPIRY,
-  REFRESH_TOKEN_EXPIRY
+  REFRESH_TOKEN_EXPIRY,
+  CORS_ORIGIN
 } from '../utils/constants';
 import { encryptToken, signTokenPayload } from '../utils/jwt';
+import Shortcut from '../models/shortcut.model';
+import SocialToken from '../models/socialToken.model';
 
 export const registerUser: RequestHandler<
   ParamsDictionary,
@@ -332,10 +337,37 @@ export const updatePassword: RequestHandler<ParamsDictionary, updatePasswordResB
     }
 
     // Password matches, update with new Password
-    await userFound.updateOne({password: await bcrypt.hash(newPassword, 10)})
+    await userFound.updateOne({ password: await bcrypt.hash(newPassword, 10) })
 
     return res.status(204).json({});
 
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      code: 500,
+      message: 'Internal Server Error'
+    });
+  }
+}
+
+export const deleteUserAccount: RequestHandler<ParamsDictionary, deleteUserAccountResBodyInterface, deleteUserAccountReqBodyInterface> = async (req, res) => {
+  try {
+    const { uuid } = req.body;
+
+    // To delete all shortcuts first
+    await Shortcut.deleteMany({owner: uuid});;
+
+    // To delete all social tokens if applicable
+    await SocialToken.deleteOne({userId: uuid});
+
+    // To delete the user record
+    await User.findByIdAndDelete(uuid);
+
+    // redirect to main?
+    return res.status(200).json({
+      code: 200,
+      redirect: CORS_ORIGIN
+    })
   } catch (err) {
     console.log(err);
     return res.status(500).json({

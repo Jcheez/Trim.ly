@@ -45,6 +45,12 @@ export interface updatePasswordReqBodyInterface {
 
 export interface updatePasswordResBodyInterface {}
 
+export interface deleteUserAccountReqBodyInterface {
+  uuid: string;
+}
+
+export interface deleteUserAccountResBodyInterface {}
+
 export interface decodedRefreshTokenInteraface extends JwtPayload {
   uuid: string;
 }

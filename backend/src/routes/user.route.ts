@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  deleteUserAccount,
   loginUser,
   logoutUser,
   refreshUserAccess,
@@ -23,5 +24,6 @@ router.use(decryptJWT, verifyJWT);
 router.get('/profile', retrieveUserProfile)
 router.put('/update/name', updateUsername)
 router.put('/update/pw', updatePassword)
+router.delete('/delete', deleteUserAccount)
 
 export default router;

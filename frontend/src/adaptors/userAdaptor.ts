@@ -42,5 +42,9 @@ export const updateUsername = (newUserName: string, token: string) => {
 }
 
 export const updatePassword = (oldPassword: string, newPassword: string, token: string) => {
-  return axios.put(`${BASE}/update/pw`, { oldPassword, newPassword }, { withCredentials: true, headers: {authorization: `Bearer ${token}`} })
+  return axios.put(`${BASE}/update/pw`, { oldPassword, newPassword }, { withCredentials: true, headers: { authorization: `Bearer ${token}` } })
+}
+
+export const deleteUserAccount = (token: string) => {
+  return axios.delete(`${BASE}/delete`, { withCredentials: true, headers: { authorization: `Bearer ${token}` } })
 }

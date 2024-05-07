@@ -2,7 +2,7 @@ import { Button, Grid, Stack, Typography } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import TextFieldWithTitle from '../components/TextFieldWithTitle'
 import useFetchData from '../hooks/useFetchData';
-import { retrieveProfile, updatePassword, updateUsername } from '../adaptors/userAdaptor';
+import { deleteUserAccount, retrieveProfile, updatePassword, updateUsername } from '../adaptors/userAdaptor';
 import { AuthContext } from '../contexts/authContext';
 import PopupAlert from '../components/PopupAlert';
 
@@ -129,6 +129,9 @@ export default function ProfilePage() {
           if (res.status === 204) {
             setPopupAlertMessage('Password has been successfully updated')
             setIsPopupAlertOpen(true)
+            setOldPassword('')
+            setNewPassword('')
+            setPasswordConfirmation('')
           }
         })
         .catch(err => {
@@ -137,6 +140,20 @@ export default function ProfilePage() {
           setPasswordConfirmationError(errorPayload.message);
         })
     }
+  }
+
+  const handleDeleteUserAccountOnClick = () => {
+    deleteUserAccount(authState)
+    .then(res => {
+      if (res.status === 200) {
+        window.location.href = res.data.redirect
+      }
+    })
+    .catch(err => {
+      const errorPayload = err.response.data;
+      console.error(`Error: ${errorPayload.message}`);
+      setPasswordConfirmationError(errorPayload.message);
+    })
   }
 
   return (
@@ -265,6 +282,7 @@ export default function ProfilePage() {
                     textTransform: 'none'
                   }}
                   size='large'
+                  onClick={handleDeleteUserAccountOnClick}
                 >
                   Delete Account
                 </Button>
