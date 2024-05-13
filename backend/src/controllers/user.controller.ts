@@ -273,7 +273,8 @@ export const retrieveUserProfile: RequestHandler<ParamsDictionary, retrieveUserP
     return res.status(200).json({
       code: 200,
       data: {
-        username: userFound.username
+        username: userFound.username,
+        hasSetPassword: userFound.password === undefined ? false : true
       }
     })
 
@@ -326,14 +327,24 @@ export const updatePassword: RequestHandler<ParamsDictionary, updatePasswordResB
       })
     }
 
-    // Compare oldPassword with password in DB
-    const passwordMatch = await bcrypt.compare(oldPassword, userFound.password);
+    if (!oldPassword) {
+      // Make sure that there is no password stored in DB
+      if (userFound.password !== oldPassword) {
+        return res.status(400).json({
+          code: 400,
+          message: 'Password has already been set'
+        })
+      }
+    } else {
+      // Compare oldPassword with password in DB
+      const passwordMatch = await bcrypt.compare(oldPassword, userFound.password);
 
-    if (!passwordMatch) {
-      return res.status(400).json({
-        code: 400,
-        message: 'Current Password is incorrect'
-      })
+      if (!passwordMatch) {
+        return res.status(400).json({
+          code: 400,
+          message: 'Current Password is incorrect'
+        })
+      }
     }
 
     // Password matches, update with new Password
@@ -355,10 +366,10 @@ export const deleteUserAccount: RequestHandler<ParamsDictionary, deleteUserAccou
     const { uuid } = req.body;
 
     // To delete all shortcuts first
-    await Shortcut.deleteMany({owner: uuid});;
+    await Shortcut.deleteMany({ owner: uuid });;
 
     // To delete all social tokens if applicable
-    await SocialToken.deleteOne({userId: uuid});
+    await SocialToken.deleteOne({ userId: uuid });
 
     // To delete the user record
     await User.findByIdAndDelete(uuid);

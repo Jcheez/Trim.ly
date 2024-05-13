@@ -38,7 +38,7 @@ export interface updateUsernameReqBodyInterface {
 export interface updateUsernameResBodyInterface {}
 
 export interface updatePasswordReqBodyInterface {
-  oldPassword: string;
+  oldPassword: string | undefined;
   newPassword: string;
   uuid: string;
 }
