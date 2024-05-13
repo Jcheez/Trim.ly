@@ -15,6 +15,12 @@ const sessionRecordSchema = new Schema<ISessionRecords>({
   codeVerifier: {
     type: String,
     required: true
+  },
+
+  createdAt: {
+    type: Date,
+    default: new Date(),
+    expires: 5*60
   }
 })
 
