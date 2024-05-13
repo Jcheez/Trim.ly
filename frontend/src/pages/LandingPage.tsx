@@ -26,7 +26,7 @@ export default function LandingPage() {
     <>
       {linkData.length ? (
         <>
-          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} height={'80px'}>
+          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
             <Typography fontSize={30} color={'#003a66'} fontWeight={'bold'}>
               {linkData.length > 1 ? `${linkData.length} Links` : `${linkData.length} Link`}
             </Typography>
@@ -36,7 +36,7 @@ export default function LandingPage() {
         </>
       ) : (
         <>
-          <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} height={'calc(100vh - 80px)'}>
+          <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} height={'calc(100vh - 104px)'}>
             <Typography fontSize={30} color={'#003a66'} fontWeight={'bold'} mb={2}>
               You have no short links.
             </Typography>

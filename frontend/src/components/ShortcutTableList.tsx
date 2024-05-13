@@ -2,24 +2,24 @@ import { Button, IconButton, Paper, Stack, Table, TableBody, TableCell, TableCon
 import SettingsIcon from '@mui/icons-material/Settings';
 import React, { useState } from 'react'
 import { ShortcutTableListProps, shortLinkDialogDataInterface } from '../interfaces';
-import CopiedAlert from './CopiedAlert';
 import ShortLinkSettingsDialog from './ShortLinkSettingsDialog';
+import PopupAlert from './PopupAlert';
 
 export default function ShortcutTableList(props: ShortcutTableListProps) {
 
   const { linkData } = props
 
   // States
-  const [isCopiedAlertOpen, setIsCopiedAlertOpen] = useState(false)
-  const [copiedAlertMessage, setCopiedAlertMessage] = useState('')
+  const [isPopupAlertOpen, setIsPopupAlertOpen] = useState(false)
+  const [popupAlertMessage, setPopupAlertMessage] = useState('')
   const [shortLinkDialogOpen, setShortLinkDialogOpen] = useState(false)
   const [shortLinkDialogData, setShortLinkDialogData] = useState<shortLinkDialogDataInterface>({shortcut: '', original: ''})
 
   // Functions
   const handleCopyButtonOnClick = (link: string) => {
     navigator.clipboard.writeText(link)
-    setIsCopiedAlertOpen(true)
-    setCopiedAlertMessage(`Copied link to clipboard: ${link}`)
+    setIsPopupAlertOpen(true)
+    setPopupAlertMessage(`Copied link to clipboard: ${link}`)
   }
 
   const handleSettingsButtonOnClick = (shortcut: string, original: string) => {
@@ -57,7 +57,7 @@ export default function ShortcutTableList(props: ShortcutTableListProps) {
         </TableBody>
       </Table>
       <ShortLinkSettingsDialog open={shortLinkDialogOpen} onClose={() => setShortLinkDialogOpen(false)} shortcut={shortLinkDialogData.shortcut} original={shortLinkDialogData.original}/>
-      <CopiedAlert autoHideDuration={1000} handleClose={() => setIsCopiedAlertOpen(false)} open={isCopiedAlertOpen} message={copiedAlertMessage}/>
+      <PopupAlert autoHideDuration={1000} handleClose={() => setIsPopupAlertOpen(false)} open={isPopupAlertOpen} message={popupAlertMessage} type={'success'}/>
     </TableContainer>
   )
 }

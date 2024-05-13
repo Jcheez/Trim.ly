@@ -11,7 +11,6 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { lightTheme } from '../theme/lightTheme';
 import TextFieldWithTitle from '../components/TextFieldWithTitle';
-import ErrorAlert from '../components/ErrorAlert';
 import { signinUser } from '../adaptors/userAdaptor';
 import { AuthContext } from '../contexts/authContext';
 import { getAuthorizationUrl } from '../adaptors/sgidAdaptor';
@@ -20,7 +19,6 @@ export default function LoginPage() {
   // states
   const [isSignInButtonDisabled, setIsSignInButtonDisabled] = useState(false)
 
-  const [errorAlertOpen, setErrorAlertOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -32,15 +30,6 @@ export default function LoginPage() {
 
   // AuthContext
   const { setAuthState } = useContext(AuthContext);
-
-  // Functions
-  const handleErrorAlertClose = () => {
-    setErrorAlertOpen(false);
-  };
-
-  const handleErrorAlertOpen = () => {
-    setErrorAlertOpen(true);
-  };
 
   const handleLoginUserOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -167,12 +156,6 @@ export default function LoginPage() {
           </Box>
         </Box>
       </Grid>
-      <ErrorAlert
-        autoHideDuration={3000}
-        handleClose={handleErrorAlertClose}
-        open={errorAlertOpen}
-        message={'Singpass login is not integrated at the moment'}
-      />
     </Grid>
   );
 }

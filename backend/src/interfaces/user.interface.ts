@@ -24,6 +24,33 @@ export interface loginUserReqBodyInterface {
 
 export interface loginUserResBodyInterface {}
 
+export interface retrieveUserProfileReqBodyInterface {
+  uuid: string;
+}
+
+export interface retrieveUserProfileResBodyInterface {}
+
+export interface updateUsernameReqBodyInterface {
+  uuid: string;
+  username: string
+}
+
+export interface updateUsernameResBodyInterface {}
+
+export interface updatePasswordReqBodyInterface {
+  oldPassword: string | undefined;
+  newPassword: string;
+  uuid: string;
+}
+
+export interface updatePasswordResBodyInterface {}
+
+export interface deleteUserAccountReqBodyInterface {
+  uuid: string;
+}
+
+export interface deleteUserAccountResBodyInterface {}
+
 export interface decodedRefreshTokenInteraface extends JwtPayload {
   uuid: string;
 }
