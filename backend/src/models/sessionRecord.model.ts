@@ -19,8 +19,8 @@ const sessionRecordSchema = new Schema<ISessionRecords>({
 
   createdAt: {
     type: Date,
-    default: new Date(),
-    expires: 5*60
+    default: Date.now,
+    expires: 30*60
   }
 })
 
