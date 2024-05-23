@@ -69,6 +69,9 @@ export const retrieveAccessTokenAndSub: RequestHandler = async (req, res) => {
       codeVerifier: session.codeVerifier,
     })
 
+    // Remove session Record from DB
+    await session.deleteOne();
+
     // Check if Sub is in social Token DB
     const socialTokenFound = await SocialToken.findOne({ provider: 'SP', providerUserId: sub })
 
