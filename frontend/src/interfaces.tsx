@@ -57,3 +57,9 @@ export interface updateObjectInterface {
   original: string,
   shortcut: string
 }
+
+
+export interface dynamicTypeAnimationInterface {
+  fontSize: string,
+  viewport: string
+}
