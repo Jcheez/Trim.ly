@@ -88,17 +88,16 @@ export default function SignupPage() {
 
   return (
     <Grid container spacing={0} component={'form'} onSubmit={handleRegisterUserOnSubmit}>
-      <Grid item xs={0} sm={2} md={4} lg={6}>
+      <Grid item xs={0} sm={2} md={4} lg={6} sx={{ bgcolor: lightTheme.palette.primary.main }}>
         <Box
-          sx={{ bgcolor: lightTheme.palette.primary.main, height: '100vh' }}
+          minHeight={'100vh'}
           alignItems={'center'}
           justifyContent={'center'}
           display={{ xs: 'none', sm: 'flex' }}
         >
           <Box
             width={'100%'}
-            pl={{ xs: 10, sm: 16 }}
-            pr={{ xs: 10, sm: 16 }}
+            p={{ xs: 10, sm: 16 }}
             display={'flex'}
             justifyContent={'center'}
           >
@@ -109,8 +108,8 @@ export default function SignupPage() {
         </Box>
       </Grid>
       <Grid item xs={12} sm={10} md={8} lg={6}>
-        <Box height={'100vh'} alignItems={'center'} display={'flex'}>
-          <Box pl={{ xs: 10, sm: 16 }} pr={{ xs: 10, sm: 16 }} width={'100%'}>
+        <Box minHeight={'100vh'} alignItems={'center'} display={'flex'}>
+          <Box p={{ xs: 10, sm: 16 }} width={'100%'}>
             <Stack spacing={7}>
               <Typography
                 variant="h4"
