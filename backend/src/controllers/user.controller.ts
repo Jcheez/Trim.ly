@@ -245,7 +245,7 @@ export const logoutUser: RequestHandler = async (req, res) => {
 
   // If token in DB, clear token
   if (userFound) {
-    await userFound.updateOne({}, { $unset: { refreshToken: '' } });
+    await userFound.updateOne({refreshToken: ''});
   }
 
   // clear cookie, return 204
