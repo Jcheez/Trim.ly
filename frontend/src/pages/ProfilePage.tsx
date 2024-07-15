@@ -8,7 +8,7 @@ import PopupAlert from '../components/PopupAlert';
 export default function ProfilePage() {
 
   // Define Auth Context
-  const { authState } = useContext(AuthContext);
+  const { getAccessToken } = useContext(AuthContext);
 
   // State for page loading
   const [loading, setLoading] = useState(true)
@@ -32,7 +32,8 @@ export default function ProfilePage() {
   useEffect(() => {
 
     // Fetch Profile Data
-    retrieveProfile(authState)
+    getAccessToken().then(token => {
+      retrieveProfile(token)
       .then(res => {
         if (res.data.code === 200) {
           // console.log(res.data.data.username)
@@ -41,13 +42,15 @@ export default function ProfilePage() {
           setHasSetPassword(res.data.data.hasSetPassword)
         }
       })
-  }, [authState])
+    })
+  }, [])
 
-  const handleUpdateUsernameOnclick = () => {
+  const handleUpdateUsernameOnclick = async () => {
 
     if (isUsernameValid(username)) {
       console.log("NEW USERNAME IS VALID")
-      updateUsername(username, authState)
+      const token = await getAccessToken()
+      updateUsername(username, token)
         .then(res => {
           if (res.status === 204) {
             setPopupAlertMessage('Username has been successfully updated')
@@ -124,9 +127,10 @@ export default function ProfilePage() {
     return isValid
   }
 
-  const handleUpdatePasswordOnClick = () => {
+  const handleUpdatePasswordOnClick = async () => {
     if (arePasswordsValid(oldPassword, newPassword, passwordConfirmation)) {
-      updatePassword(oldPassword, passwordConfirmation, authState)
+      const token = await getAccessToken()
+      updatePassword(oldPassword, passwordConfirmation, token)
         .then(res => {
           if (res.status === 204) {
             setPopupAlertMessage('Password has been successfully updated')
@@ -144,9 +148,10 @@ export default function ProfilePage() {
     }
   }
 
-  const handleCreateNewPasswordOnClick = () => {
+  const handleCreateNewPasswordOnClick = async () => {
     if (arePasswordsValid(undefined, newPassword, passwordConfirmation)) {
-      updatePassword(undefined, passwordConfirmation, authState)
+      const token = await getAccessToken()
+      updatePassword(undefined, passwordConfirmation, token)
         .then(res => {
           if (res.status === 204) {
             setPopupAlertMessage('Password has been successfully updated')
@@ -164,8 +169,9 @@ export default function ProfilePage() {
     }
   }
 
-  const handleDeleteUserAccountOnClick = () => {
-    deleteUserAccount(authState)
+  const handleDeleteUserAccountOnClick = async () => {
+    const token = await getAccessToken()
+    deleteUserAccount(token)
       .then(res => {
         if (res.status === 200) {
           window.location.href = res.data.redirect

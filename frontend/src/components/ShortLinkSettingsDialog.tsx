@@ -17,13 +17,14 @@ export default function ShortLinkSettingsDialog(props: ShortLinkSettingsDialogPr
 
   const [userClickDelete, setUserClickDelete] = useState(false)
 
-  const { authState } = useContext(AuthContext)
+  const { getAccessToken } = useContext(AuthContext)
 
   const navigate = useNavigate()
 
   // Functions
-  const handleRemoveLinkButtonOnClick = () => {
-    deleteShortcut(shortcut, authState)
+  const handleRemoveLinkButtonOnClick = async () => {
+    const token = await getAccessToken()
+    deleteShortcut(shortcut, token)
       .then(res => {
         if (res.status === 204) {
           navigate(0)
@@ -35,9 +36,10 @@ export default function ShortLinkSettingsDialog(props: ShortLinkSettingsDialogPr
       })
   }
 
-  const handleSaveShortcutButtonOnClick = () => {
+  const handleSaveShortcutButtonOnClick = async () => {
     if (isShortcutDetailsValid(originalLink)) {
-      updateShortcut({original: originalLink, shortcut}, authState)
+      const token = await getAccessToken()
+      updateShortcut({original: originalLink, shortcut}, token)
       .then(res => {
         if (res.status === 204) {
           navigate(0)

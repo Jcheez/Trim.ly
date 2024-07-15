@@ -10,15 +10,17 @@ import { useNavigate } from 'react-router-dom';
 export default function LandingNavbar() {
 
   // Authcontext
-  const { setAuthState } = useContext(AuthContext);
+  const { insertToken, insertExpiry } = useContext(AuthContext);
 
   // Navigate
   const navigate = useNavigate();
 
   // Functions
   const handleSignOutUserOnClick = () => {
-    setAuthState('') // TODO: Might need to define helper functions in auth context for clearing state and defining state
-    signoutUser().then(res => console.log(res.data))
+    signoutUser().then(_ => {
+      insertToken('')
+      insertExpiry(0)
+    })
   }
 
   const handleProfileOnClick = () => {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { refreshUserAccessInterface } from '../interfaces';
 
 const BASE = process.env.REACT_APP_BACKEND_URL + '/api/users';
 
@@ -26,7 +27,7 @@ export const signinUser = (email: string, password: string) => {
 };
 
 export const refreshUserAccess = () => {
-  return axios.get(`${BASE}/refresh`, { withCredentials: true });
+  return axios.get<refreshUserAccessInterface>(`${BASE}/refresh`, { withCredentials: true });
 };
 
 export const signoutUser = () => {

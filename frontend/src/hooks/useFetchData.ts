@@ -1,9 +1,8 @@
-import { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react'
 
-const useFetchData = (adaptor: Promise<AxiosResponse<any, any>>) => {
+const useFetchData = <T>(asyncFunction: Promise<T>) => {
 
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<T>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -12,8 +11,8 @@ const useFetchData = (adaptor: Promise<AxiosResponse<any, any>>) => {
 
   const fetchData = async () => {
     try {
-      const response = await adaptor;
-      setData(response.data)
+      const response = await asyncFunction;
+      setData(response)
     } catch (err) {
       console.error(err)
     }

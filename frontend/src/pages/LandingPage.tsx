@@ -7,20 +7,22 @@ import ShortcutTableList from '../components/ShortcutTableList';
 import CreateShortcutDialog from '../components/CreateShortcutDialog';
 
 export default function LandingPage() {
-  const { authState } = useContext(AuthContext);
+  const { getAccessToken } = useContext(AuthContext);
 
   const [linkData, setLinkData] = useState<linkDataInterface[]>([]);
   const [createShortcutDialogOpen, setCreateShortcutDialogOpen] = useState(false)
 
   useEffect(() => {
-    retrieveOwnerLinks(authState)
+    getAccessToken().then(token => {
+      retrieveOwnerLinks(token)
       .then(res => {
         setLinkData(res.data.data)
       })
       .catch(err => {
         console.log(err)
       })
-  }, [authState])
+    })
+  }, [])
 
   return (
     <>

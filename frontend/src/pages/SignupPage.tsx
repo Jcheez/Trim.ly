@@ -22,7 +22,7 @@ export default function SignupPage() {
   const navigate = useNavigate();
 
   // AuthContext
-  const { setAuthState } = useContext(AuthContext);
+  const { insertToken, insertExpiry } = useContext(AuthContext);
 
   // Functions
   const handleRegisterUserOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -34,7 +34,8 @@ export default function SignupPage() {
           const responsePayload = res.data;
           if (responsePayload.code === 201) {
             const signinResponse = await signinUser(email, password);
-            setAuthState(signinResponse.data.data.accessToken);
+            insertToken(signinResponse.data.data.accessToken);
+            insertExpiry(signinResponse.data.data.expiry);
             navigate('/main');
           }
         })

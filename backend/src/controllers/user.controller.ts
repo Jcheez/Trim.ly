@@ -146,7 +146,10 @@ export const loginUser: RequestHandler<
 
       return res.status(200).json({
         code: 200,
-        data: { accessToken: encryptedAccessToken }
+        data: {
+          accessToken: encryptedAccessToken,
+          expiry: Date.now() + (ACCESS_TOKEN_EXPIRY - 10)*1000
+        }
       });
     } else {
       return res.status(401).json({
@@ -214,7 +217,7 @@ export const refreshUserAccess: RequestHandler = async (req, res) => {
     const signedAccessToken = await signTokenPayload(
       ACCESS_TOKEN_PRIVATEKEY,
       accessTokenPayload,
-      3600
+      ACCESS_TOKEN_EXPIRY
     );
     const encryptedAccessToken = await encryptToken(
       ENCRYPTION_PUBLICKEY,
@@ -223,7 +226,10 @@ export const refreshUserAccess: RequestHandler = async (req, res) => {
 
     return res.status(200).json({
       code: 200,
-      data: { accessToken: encryptedAccessToken }
+      data: {
+        accessToken: encryptedAccessToken,
+        expiry: Date.now() + (ACCESS_TOKEN_EXPIRY - 10)*1000
+      }
     });
   });
 };

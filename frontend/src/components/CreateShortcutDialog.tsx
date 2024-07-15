@@ -10,7 +10,7 @@ export default function CreateShortcutDialog(props: CreateShortcutDialogProps) {
 
   const { open, onClose, setLinkData } = props
 
-  const { authState } = useContext(AuthContext)
+  const { getAccessToken } = useContext(AuthContext)
 
   // states
   const [originalLink, setOriginalLink] = useState('')
@@ -47,9 +47,10 @@ export default function CreateShortcutDialog(props: CreateShortcutDialogProps) {
     return isValid
   }
 
-  const handleCreateShortcutOnClick = () => {
+  const handleCreateShortcutOnClick = async () => {
     if (isShortcutDetailsValid(originalLink, shortcutLink)) {
-      createShortcut(originalLink, shortcutLink, authState).then(res => {
+      const token = await getAccessToken()
+      createShortcut(originalLink, shortcutLink, token).then(res => {
         if (res.status === 201) {
           console.log('Shortcut added')
           setLinkData(prev => [...prev, {

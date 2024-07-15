@@ -29,7 +29,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   // AuthContext
-  const { setAuthState } = useContext(AuthContext);
+  const { insertToken, insertExpiry } = useContext(AuthContext);
 
   const handleLoginUserOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -38,7 +38,8 @@ export default function LoginPage() {
       signinUser(email, password)
         .then((res) => {
           const responsePayload = res.data;
-          setAuthState(responsePayload.data.accessToken);
+          insertToken(responsePayload.data.accessToken);
+          insertExpiry(responsePayload.data.expiry);
           navigate('/main');
         })
         .catch((err) => {

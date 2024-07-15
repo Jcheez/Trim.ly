@@ -36,8 +36,9 @@ export interface ShortLinkSettingsDialogProps {
 }
 
 export interface authContextInterface {
-  authState: string;
-  setAuthState: Dispatch<SetStateAction<string>>;
+  getAccessToken: () => Promise<string>
+  insertToken: (token: string) => void
+  insertExpiry: (expiryTime: number) => void
   AuthenticatedRoutes: React.ElementType;
   UnAuthenticatedRoutes: React.ElementType;
 }
@@ -62,4 +63,14 @@ export interface updateObjectInterface {
 export interface dynamicTypeAnimationInterface {
   fontSize: string,
   viewport: string
+}
+
+// Adaptor Interfaces
+
+export interface refreshUserAccessInterface {
+  code: number;
+  data: {
+    accessToken: string,
+    expiry: number
+  };
 }
