@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "preprod": "npx tsc",
-    "prod": "node dist/server.js",
+    "build": "npx tsc",
+    "start": "node dist/server.js",
     "dev": "nodemon server.ts",
     "test": "jest --detectOpenHandles --forceExit"
   },

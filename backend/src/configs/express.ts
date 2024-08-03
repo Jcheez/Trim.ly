@@ -15,6 +15,7 @@ app.use(cookieParser()); // Middleware for parsing cookies
 // Common Header Middleware
 app.use(responseHeaders)
 
+app.get('/api', (req, res) => res.status(200).json({code: 200, message: 'API Pinged'}))
 app.use('/api/users', userRoute);
 app.use('/api/shortcuts', shortcutRoute);
 app.use('/api/oauth/sgid', sgidRoute);
