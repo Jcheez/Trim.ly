@@ -1,7 +1,3 @@
-import dotenv from 'dotenv';
-
-dotenv.config();
-
 export const SERVER_PORT = process.env.SERVER_PORT || '3000';
 
 export const MONGO_DB_URL = process.env.MONGO_DB_URL || '';

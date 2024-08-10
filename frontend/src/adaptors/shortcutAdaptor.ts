@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { updateObjectInterface } from '../interfaces';
+import { REACT_APP_BACKEND_URL } from '../utils/constants';
 
-const BASE = process.env.REACT_APP_BACKEND_URL + '/api/shortcuts';
+const BASE = REACT_APP_BACKEND_URL + '/api/shortcuts';
 
 export const retrieveOwnerLinks = (token: string) => {
   return axios.get(`${BASE}/all`, { withCredentials: true, headers: { authorization: `Bearer ${token}` } })

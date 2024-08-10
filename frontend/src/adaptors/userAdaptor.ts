@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { refreshUserAccessInterface } from '../interfaces';
+import { REACT_APP_BACKEND_URL } from '../utils/constants';
 
-const BASE = process.env.REACT_APP_BACKEND_URL + '/api/users';
+const BASE = REACT_APP_BACKEND_URL + '/api/users';
 
 export const registerUser = (
   username: string,
