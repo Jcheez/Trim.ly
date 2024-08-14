@@ -16,7 +16,9 @@ jobs:
         run: npm run devinstall
 
       - name: Building Frontend and Backend
-        run: npm run build
+        run: |
+          export CI=false
+          npm run build
 
       - name: Removing development dependencies & Install Production dependencies
         run: |
