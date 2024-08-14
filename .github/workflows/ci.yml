@@ -34,7 +34,7 @@ jobs:
         run: |
           mkdir -p .platform/nginx/conf.d/elasticbeanstalk
           touch .platform/nginx/conf.d/elasticbeanstalk/00_application.conf
-          echo "${{ secrets.NGINX_CONFIG }}" >> .platform/nginx/conf.d/elasticbeanstalk/00_application.conf
+          echo '${{ secrets.NGINX_CONFIG }}' >> .platform/nginx/conf.d/elasticbeanstalk/00_application.conf
 
       - name: Creating Deployment Zip
         run: |
