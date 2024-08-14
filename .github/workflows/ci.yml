@@ -26,12 +26,13 @@ jobs:
           cd frontend && rm -rf node_modules
           cd ..
           cd backend && rm -rf node_modules
-          npm install --omit=dev
           cd ..
+          npm install --omit=dev
+          pwd
 
       - name: Creating custom nginx config
         run: |
-          mkdir .platform/nginx/conf.d/elasticbeanstalk
+          mkdir -p .platform/nginx/conf.d/elasticbeanstalk
           touch .platform/nginx/conf.d/elasticbeanstalk/00_application.conf
           echo ${{ secrets.NGINX_CONFIG }} >> .platform/nginx/conf.d/elasticbeanstalk/00_application.conf
 
