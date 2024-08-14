@@ -1,0 +1,53 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking Out Code
+        uses: actions/checkout@v3
+
+      - name: Installing all dependencies
+        run: npm run devinstall
+
+      - name: Building Frontend and Backend
+        run: npm run build
+
+      - name: Removing development dependencies & Install Production dependencies
+        run: |
+          rm -rf node_modules
+          cd frontend && rm -rf node_modules
+          cd ..
+          cd backend && rm -rf node_modules
+          npm install --omit=dev
+          cd ..
+
+      - name: Creating custom nginx config
+        run: |
+          mkdir .platform/nginx/conf.d/elasticbeanstalk
+          touch .platform/nginx/conf.d/elasticbeanstalk/00_application.conf
+          echo ${{ secrets.NGINX_CONFIG }} >> .platform/nginx/conf.d/elasticbeanstalk/00_application.conf
+
+      - name: Creating Deployment Zip
+        run: |
+          zip -r deploy.zip .
+
+      - name: Creating Version Label
+        shell: bash
+        run: echo "##[set-output name=timestamp;]$(env TZ=Asia/Singapore date '+%Y%m%d%H%M%S')"
+        id: get_timestamp
+
+      - name: Deploying to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: ${{ secrets.AWS_EB_APPLICATION_NAME }}
+          environment_name: ${{ secrets.AWS_EB_ENVIRONMENT_NAME }}
+          version_label: ${{ steps.get_timestamp.outputs.timestamp }}
+          region: ap-southeast-1
