@@ -23,10 +23,7 @@ export const verifyJWT: RequestHandler<
       });
     }
 
-    const accessTokenPublicKey = Buffer.from(
-      ACCESS_TOKEN_PUBLICKEY,
-      'base64'
-    ).toString();
+    const accessTokenPublicKey = ACCESS_TOKEN_PUBLICKEY.replace(/\\n/g, '\n');
 
     // Verifying decrypted access tokenx
     jwt.verify(token, accessTokenPublicKey, (err, decoded) => {

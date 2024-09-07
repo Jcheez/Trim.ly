@@ -12,23 +12,22 @@ jobs:
       - name: Checking Out Code
         uses: actions/checkout@v3
 
-      - name: Installing all dependencies
-        run: npm run devinstall
+      # - name: Installing all dependencies
+      #   run: npm run devinstall
 
-      - name: Building Frontend and Backend
-        run: |
-          export CI=false
-          npm run build
+      # - name: Building Frontend and Backend
+      #   run: |
+      #     export CI=false
+      #     npm run build
 
-      - name: Removing development dependencies & Install Production dependencies
-        run: |
-          rm -rf node_modules
-          cd frontend && rm -rf node_modules
-          cd ..
-          cd backend && rm -rf node_modules
-          cd ..
-          npm install --omit=dev
-          pwd
+      # - name: Removing development dependencies & Install Production dependencies
+      #   run: |
+      #     rm -rf node_modules
+      #     cd frontend && rm -rf node_modules
+      #     cd ..
+      #     cd backend && rm -rf node_modules
+      #     cd ..
+      #     npm install --omit=dev
 
       - name: Creating custom nginx config
         run: |

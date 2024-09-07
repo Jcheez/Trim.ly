@@ -16,10 +16,7 @@ export const decryptJWT: RequestHandler = async (req, res, next) => {
     // Token is in the format Bearer xxxx, to filter out xxxx
     const token = authHeader.split(' ')[1];
 
-    const encryptionPrivateKey = Buffer.from(
-      ENCRYPTION_PRIVATEKEY,
-      'base64'
-    ).toString();
+    const encryptionPrivateKey = ENCRYPTION_PRIVATEKEY.replace(/\\n/g, '\n');
 
     // Import encryption key into node jose
     const encryptionKey = await jose.JWK.asKey(encryptionPrivateKey, 'pem');

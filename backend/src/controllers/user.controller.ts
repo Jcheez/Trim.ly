@@ -113,12 +113,16 @@ export const loginUser: RequestHandler<
       const accessTokenPayload = {
         uuid: userFound.id
       };
+      console.log("I AM HERE")
 
       const signedAccessToken = await signTokenPayload(
         ACCESS_TOKEN_PRIVATEKEY,
         accessTokenPayload,
         ACCESS_TOKEN_EXPIRY
       );
+
+      console.log("I AM HERE 2")
+
       const encryptedAccessToken = await encryptToken(
         ENCRYPTION_PUBLICKEY,
         signedAccessToken
@@ -188,10 +192,7 @@ export const refreshUserAccess: RequestHandler = async (req, res) => {
     });
   }
 
-  const refreshTokenPublicKey = Buffer.from(
-    REFRESH_TOKEN_PUBLICKEY,
-    'base64'
-  ).toString();
+  const refreshTokenPublicKey = REFRESH_TOKEN_PUBLICKEY.replace(/\\n/g, '\n');
 
   jwt.verify(refreshToken, refreshTokenPublicKey, async (err, decoded) => {
     console.log(err);
