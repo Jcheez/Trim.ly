@@ -1,0 +1,17 @@
+name: trimly
+
+services:
+  trimly-backend:
+    build: ./backend
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+  trimly-frontend:
+    build: ./frontend
+    depends_on:
+      - trimly-backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
