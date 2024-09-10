@@ -15,6 +15,9 @@ jobs:
       - name: Installing all dependencies
         run: npm run devinstall
 
+      - name: Build .env file
+        run: echo '${{ secrets.ENV_CONFIG }}' >> .env
+
       - name: Building Frontend and Backend
         run: |
           export CI=false
