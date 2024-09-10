@@ -113,7 +113,6 @@ export const loginUser: RequestHandler<
       const accessTokenPayload = {
         uuid: userFound.id
       };
-      console.log("I AM HERE")
 
       const signedAccessToken = await signTokenPayload(
         ACCESS_TOKEN_PRIVATEKEY,
@@ -121,7 +120,6 @@ export const loginUser: RequestHandler<
         ACCESS_TOKEN_EXPIRY
       );
 
-      console.log("I AM HERE 2")
 
       const encryptedAccessToken = await encryptToken(
         ENCRYPTION_PUBLICKEY,

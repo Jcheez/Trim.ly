@@ -4,10 +4,10 @@ WORKDIR /frontend
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --omit=dev
 
-COPY . ./
+COPY ./build ./build
 
 EXPOSE 3000
 
-CMD ["npm", "run", "dev:docker"]
+CMD ["npm", "start"]

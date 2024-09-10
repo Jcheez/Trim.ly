@@ -4,10 +4,10 @@ WORKDIR /backend
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --omit=dev
 
-COPY . ./
+COPY ./dist ./dist
 
 EXPOSE 4000
 
-CMD ["npm", "run", "dev:docker"]
+CMD ["npm", "start"]
