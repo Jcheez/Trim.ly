@@ -8,6 +8,4 @@ RUN npm install --omit=dev
 
 COPY ./build ./build
 
-EXPOSE 3000
-
 CMD ["npm", "start"]

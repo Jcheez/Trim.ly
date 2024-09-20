@@ -16,7 +16,7 @@ jobs:
         run: npm run devinstall
 
       - name: Build .env file
-        run: echo '${{ secrets.ENV_CONFIG }}' >> .env
+        run: echo "${{ secrets.ENV_CONFIG }}" >> .env
 
       - name: Building Frontend and Backend
         run: |
@@ -33,9 +33,9 @@ jobs:
 
       - name: Creating custom nginx config
         run: |
-          mkdir -p .platform/nginx/conf.d/elasticbeanstalk
-          touch .platform/nginx/conf.d/elasticbeanstalk/00_application.conf
-          echo '${{ secrets.NGINX_CONFIG }}' >> .platform/nginx/conf.d/elasticbeanstalk/00_application.conf
+          mkdir -p nginx
+          touch nginx/default.conf
+          echo '${{ secrets.NGINX_CONFIG }}' >> nginx/default.conf
 
       - name: Creating Deployment Zip
         run: |
