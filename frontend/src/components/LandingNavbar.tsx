@@ -2,7 +2,6 @@ import { AppBar, Box, Button, Container, IconButton, Stack, Typography } from '@
 import React, { useContext } from 'react'
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import MenuIcon from '@mui/icons-material/Menu';
 import { AuthContext } from '../contexts/authContext';
 import { signoutUser } from '../adaptors/userAdaptor';
 import { useNavigate } from 'react-router-dom';
@@ -54,9 +53,6 @@ export default function LandingNavbar() {
 
           {/* mobile view for logout and profile icons */}
           <Stack sx={{ display: { xs: 'flex', sm: 'none' } }} spacing={0} direction={'row'}>
-            <IconButton>
-              <MenuIcon color='secondary' />
-            </IconButton>
             <Box display={'flex'} alignItems={'center'}>
               <Typography
                 variant="h5"
@@ -76,7 +72,7 @@ export default function LandingNavbar() {
           </Stack>
 
           <Stack sx={{ display: { xs: 'flex', sm: 'none' } }} spacing={1} direction={'row'}>
-            <IconButton>
+            <IconButton onClick={handleProfileOnClick}>
               <AccountCircleIcon color='secondary' />
             </IconButton>
             <IconButton onClick={handleSignOutUserOnClick}>

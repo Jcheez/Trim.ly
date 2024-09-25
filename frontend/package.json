@@ -23,7 +23,7 @@
   "scripts": {
     "start": "serve -s build",
     "dev:docker": "react-scripts start",
-    "dev": "env-cmd -f ../.env react-scripts start",
+    "dev": "env-cmd -f ../.env.local react-scripts start",
     "build": "env-cmd -f ../.env react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

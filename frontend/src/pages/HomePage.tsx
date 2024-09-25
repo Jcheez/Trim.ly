@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography, Link } from '@mui/material';
 import React from 'react';
 import DynamicTypeAnimation from '../components/DynamicTypeAnimation';
 import { useNavigate } from 'react-router-dom';
@@ -73,6 +73,10 @@ export default function HomePage() {
                 Try me!
               </Button>
             </Box>
+            <Typography textAlign={'left'} mt={2}>
+                Already have a TRIMLY account?{' '}
+                <Link href="/login">Sign In</Link>
+              </Typography>
           </Box>
         </Box>
       </Grid>

@@ -7,7 +7,7 @@
     "build": "npx tsc",
     "start": "node dist/server.js",
     "dev:docker": "nodemon server.ts",
-    "dev": "nodemon -r dotenv/config server.ts dotenv_config_path=$(pwd)/../.env dotenv_config_debug=true",
+    "dev": "nodemon -r dotenv/config server.ts dotenv_config_path=$(pwd)/../.env.local dotenv_config_debug=true",
     "test": "jest --detectOpenHandles --forceExit"
   },
   "keywords": [],

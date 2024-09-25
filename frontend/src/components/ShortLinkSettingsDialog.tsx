@@ -85,7 +85,7 @@ export default function ShortLinkSettingsDialog(props: ShortLinkSettingsDialogPr
       <Box p={2}>
         <DialogTitle mb={3}>
           <Box display={'flex'} justifyContent={'space-between'}>
-            <Typography fontSize={30} color={'#003a66'} fontWeight={'bold'}>Settings for /{shortcut}</Typography>
+            <Typography fontSize={{xs:23, sm:25, md:30}} color={'#003a66'} fontWeight={'bold'}>Settings for /{shortcut}</Typography>
             <IconButton onClick={handleDialogOnClose}>
               <CloseIcon />
             </IconButton>
@@ -93,7 +93,7 @@ export default function ShortLinkSettingsDialog(props: ShortLinkSettingsDialogPr
         </DialogTitle>
         <DialogContent>
           <Grid container rowSpacing={1} columnSpacing={1}>
-            <Grid item xs={10}>
+            <Grid item xs={12} sm={10}>
               <TextFieldWithTitle
                 title='Original Link'
                 placeholder='Original URL'
@@ -103,7 +103,7 @@ export default function ShortLinkSettingsDialog(props: ShortLinkSettingsDialogPr
                 error={originalError}
               />
             </Grid>
-            <Grid item xs={2} display={'flex'} alignItems={'end'}>
+            <Grid item xs={4} sm={2} display={'flex'} alignItems={'end'}>
               <Button fullWidth variant='outlined' color='secondary' sx={{ borderRadius: 100, textTransform: 'none' }} size='large' onClick={handleSaveShortcutButtonOnClick}>Save</Button>
             </Grid>
           </Grid>

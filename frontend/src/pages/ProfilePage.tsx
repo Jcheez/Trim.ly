@@ -202,7 +202,7 @@ export default function ProfilePage() {
                 </Typography>
               </Grid>
 
-              <Grid item xs={9}>
+              <Grid item xs={12} md={9}>
                 <TextFieldWithTitle
                   placeholder=''
                   type='text'
@@ -213,7 +213,7 @@ export default function ProfilePage() {
                 />
               </Grid>
 
-              <Grid item xs={3} display={'flex'} alignItems={'flex-end'} justifyContent={'center'}>
+              <Grid item xs={12} md={3} display={'flex'} alignItems={'flex-end'} justifyContent={{xs:'start', md: 'center'}}>
                 <Button
                   variant='contained'
                   color='secondary'
@@ -240,7 +240,7 @@ export default function ProfilePage() {
 
               {hasSetPassword && (
                 <>
-                  <Grid item xs={9}>
+                  <Grid item xs={12} md={9}>
                     <Stack direction={'column'} spacing={2}>
                       <TextFieldWithTitle
                         placeholder=''
@@ -271,7 +271,7 @@ export default function ProfilePage() {
                     </Stack>
                   </Grid>
 
-                  <Grid item xs={3} display={'flex'} alignItems={'flex-end'} justifyContent={'center'}>
+                  <Grid item xs={12} md={3} display={'flex'} alignItems={'flex-end'} justifyContent={{xs:'start', md: 'center'}}>
                     <Button
                       variant='contained'
                       color='secondary'
@@ -355,14 +355,14 @@ export default function ProfilePage() {
                 </Typography>
               </Grid>
 
-              <Grid item xs={9}>
+              <Grid item xs={12} md={9}>
                 <Typography fontSize={15} textAlign={'left'}>
                   By deleting your account, all data in this account will be deleted permanently.
                   This <Typography component="span" fontWeight='bold'> CANNOT</Typography> be undone.
                 </Typography>
               </Grid>
 
-              <Grid item xs={3} display={'flex'} alignItems={'flex-end'} justifyContent={'center'}>
+              <Grid item xs={12} md={3} display={'flex'} alignItems={'flex-end'} justifyContent={{xs:'start', md: 'center'}}>
                 <Button
                   variant='outlined'
                   color='error'
