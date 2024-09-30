@@ -66,6 +66,10 @@ export default function CreateShortcutDialog(props: CreateShortcutDialogProps) {
       })
         .catch(err => {
           const errorPayload = err.response.data
+          if (errorPayload.message.includes('Original Link contains URL of this website')) {
+            setOriginalError(errorPayload.message)
+            return
+          }
           console.error(`Error: ${errorPayload.message}`);
           setShortcutError(errorPayload.message)
         })

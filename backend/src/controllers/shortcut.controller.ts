@@ -14,6 +14,7 @@ import {
 } from '../interfaces/shortcut.interface';
 import Shortcut from '../models/shortcut.model';
 import User from '../models/user.model';
+import { CORS_ORIGIN } from '../utils/constants';
 
 export const createShortcut: RequestHandler<
   ParamsDictionary,
@@ -55,6 +56,14 @@ export const createShortcut: RequestHandler<
         code: 400,
         message: 'Shortcut is already in use, choose another one'
       });
+    }
+
+    // Ensure that shortcut does not contain domain
+    if (original.includes(CORS_ORIGIN)) {
+      return res.status(400).json({
+        code: 400,
+        message: 'Original Link contains URL of this website'
+      })
     }
 
     // Shortcut not present, create a new shortcut record
