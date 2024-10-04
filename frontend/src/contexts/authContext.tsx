@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return responsePayload.data.accessToken
       })
       .catch((err) => {
-        console.log(`ERROR: ${JSON.stringify(err.response)}`);
         setAuthState('');
         setExpiry(0)
         return ''
@@ -52,7 +51,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const AuthenticatedRoutes = () => {
-    const { loading } = useFetchData(getAccessToken())
+    const { loading } = useFetchData(getAccessToken)
     if (loading) {
       return <></>
     }
@@ -60,6 +59,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const UnAuthenticatedRoutes = () => {
+    const { loading } = useFetchData(getAccessToken)
+    if (loading) {
+      return <></>
+    }
     return !isAuthTokenValid() ? <Outlet /> : <Navigate to="/main" replace={true} />;
   }
 

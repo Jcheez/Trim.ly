@@ -136,7 +136,7 @@ export default function LoginPage() {
                 Sign In
               </Button>
               <Typography>
-                New to TRIMLY? <Link href="/signup">Create Account</Link>
+                New to TRIMLY? <Link onClick={() => navigate('/signup')} sx={{cursor: 'pointer'}}>Create Account</Link>
               </Typography>
               <Divider>OR</Divider>
               <Button

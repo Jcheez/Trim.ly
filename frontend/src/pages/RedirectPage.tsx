@@ -19,7 +19,6 @@ export default function RedirectPage() {
         })
         .catch(err => {
           const errorPayload = err.response.data
-          console.log(errorPayload.message)
           setInvalidShortcut(true)
         })
     }

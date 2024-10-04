@@ -19,7 +19,6 @@ export default function LandingPage() {
         setLinkData(res.data.data)
       })
       .catch(err => {
-        console.log(err)
       })
     })
   }, [])

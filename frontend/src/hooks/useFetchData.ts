@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const useFetchData = <T>(asyncFunction: Promise<T>) => {
+const useFetchData = <T>(asyncFunction: () => Promise<T>) => {
 
   const [data, setData] = useState<T>();
   const [loading, setLoading] = useState(true);
@@ -11,7 +11,7 @@ const useFetchData = <T>(asyncFunction: Promise<T>) => {
 
   const fetchData = async () => {
     try {
-      const response = await asyncFunction;
+      const response = await asyncFunction();
       setData(response)
     } catch (err) {
       console.error(err)

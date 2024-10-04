@@ -52,7 +52,6 @@ export default function CreateShortcutDialog(props: CreateShortcutDialogProps) {
       const token = await getAccessToken()
       createShortcut(originalLink, shortcutLink, token).then(res => {
         if (res.status === 201) {
-          console.log('Shortcut added')
           setLinkData(prev => [...prev, {
             shortcut: shortcutLink,
             original: originalLink,

@@ -19,6 +19,7 @@ export default function LandingNavbar() {
     signoutUser().then(_ => {
       insertToken('')
       insertExpiry(0)
+      navigate('/login')
     })
   }
 

@@ -48,7 +48,6 @@ export default function ProfilePage() {
   const handleUpdateUsernameOnclick = async () => {
 
     if (isUsernameValid(username)) {
-      console.log("NEW USERNAME IS VALID")
       const token = await getAccessToken()
       updateUsername(username, token)
         .then(res => {
@@ -73,7 +72,6 @@ export default function ProfilePage() {
   const isUsernameValid = (
     username: string,
   ) => {
-    console.log(username, "CALLED")
     setUsernameError('');
     let isValid = true;
 
