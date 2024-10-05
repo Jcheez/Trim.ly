@@ -19,8 +19,7 @@ services:
       - 443:443
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./nginx/certs/localhost.crt:/root/ssl/localhost.crt
-      - ./nginx/certs/localhost.key:/root/ssl/localhost.key
+      - ./nginx/certs/:/root/ssl/:ro
     depends_on:
       - trimly-backend
       - trimly-frontend

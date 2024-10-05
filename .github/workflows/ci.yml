@@ -18,6 +18,12 @@ jobs:
       - name: Build .env file
         run: echo "${{ secrets.ENV_CONFIG }}" >> .env
 
+      - name: Build TLS Certs
+        run: |
+          mkdir -p "certbot/conf/live/${{ secrets.DOMAIN }}"
+          echo "${{ secrets.SSL_CERT }}" >> "certbot/conf/live/${{ secrets.DOMAIN }}/cert.pem"
+          echo "${{ secrets.SSL_CERT_KEY }}" >> "certbot/conf/live/${{ secrets.DOMAIN }}/key.pem"
+
       - name: Building Frontend and Backend
         run: |
           export CI=false
