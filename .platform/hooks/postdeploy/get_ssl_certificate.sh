@@ -1,3 +1,5 @@
+#!/bin/sh
+
 cd ../var/app/current/certbot/conf/live
 
 docker compose run --rm certbot \
