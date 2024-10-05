@@ -21,8 +21,8 @@ jobs:
       - name: Build TLS Certs
         run: |
           mkdir -p "certbot/conf/live/${{ secrets.DOMAIN }}"
-          echo "${{ secrets.SSL_CERT }}" >> "certbot/conf/live/${{ secrets.DOMAIN }}/cert.pem"
-          echo "${{ secrets.SSL_CERT_KEY }}" >> "certbot/conf/live/${{ secrets.DOMAIN }}/key.pem"
+          echo "${{ secrets.SSL_CERT }}" >> "certbot/conf/live/${{ secrets.DOMAIN }}/fullchain.pem"
+          echo "${{ secrets.SSL_CERT_KEY }}" >> "certbot/conf/live/${{ secrets.DOMAIN }}/privkey.pem"
 
       - name: Building Frontend and Backend
         run: |
