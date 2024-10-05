@@ -6,7 +6,7 @@ resource "aws_elastic_beanstalk_application" "application" {
 resource "aws_elastic_beanstalk_environment" "devenv" {
   name                = "development"
   application         = aws_elastic_beanstalk_application.application.name
-  cname_prefix        = "trimly"
+  cname_prefix        = "trimlyyyy"
   description         = "This is the development environment for Trimly"
   tier                = "WebServer"
   solution_stack_name = "64bit Amazon Linux 2023 v4.3.6 running Docker"
@@ -45,11 +45,28 @@ resource "aws_elastic_beanstalk_environment" "devenv" {
     name      = "MONGO_DB_URL"
     value     = var.mondo_db_url
   }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "CERTBOT_DOMAINS"
+    value     = var.certbot_domains
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "CERTBOT_EMAIL"
+    value     = var.certbot_email
+  }
 }
 
 data "aws_instance" "application" {
   filter {
     name   = "tag:elasticbeanstalk:environment-name"
     values = [aws_elastic_beanstalk_environment.devenv.name]
+  }
+
+  filter {
+    name   = "instance-state-name"
+    values = ["running"]
   }
 }

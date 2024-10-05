@@ -13,3 +13,13 @@ variable "mondo_db_url" {
   description = "Mongo DB URL String"
   type        = string
 }
+
+variable "certbot_domains" {
+  description = "Domain to provide TSL Certificate"
+  type        = string
+}
+
+variable "certbot_email" {
+  description = "Certbot email"
+  type        = string
+}

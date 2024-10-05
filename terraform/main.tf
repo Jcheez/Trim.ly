@@ -13,4 +13,6 @@ module "application" {
   region       = var.region
   account_id   = var.account_id
   mondo_db_url = module.storage.mongodb_url
+  certbot_domains = var.certbot_domains
+  certbot_email = var.certbot_email
 }

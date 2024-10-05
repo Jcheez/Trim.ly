@@ -53,3 +53,16 @@ variable "account_id" {
   description = "AWS Account ID"
   type        = string
 }
+
+# ------------------------------------------------------------
+# Certbot
+# ------------------------------------------------------------
+variable "certbot_domains" {
+  description = "Domain to provide TSL Certificate"
+  type        = string
+}
+
+variable "certbot_email" {
+  description = "Certbot email"
+  type        = string
+}
