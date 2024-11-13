@@ -6,7 +6,7 @@ resource "aws_elastic_beanstalk_application" "application" {
 resource "aws_elastic_beanstalk_environment" "devenv" {
   name                = "development"
   application         = aws_elastic_beanstalk_application.application.name
-  cname_prefix        = "trimlyyyy"
+  cname_prefix        = "trimly"
   description         = "This is the development environment for Trimly"
   tier                = "WebServer"
   solution_stack_name = "64bit Amazon Linux 2023 v4.3.6 running Docker"

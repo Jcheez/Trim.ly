@@ -1,6 +1,8 @@
 #!/bin/sh
 
-cd ../var/app/current/certbot/conf/live
+cd ../var/app/current/certbot
+
+rm -rf conf
 
 docker compose run --rm certbot \
   certonly \
