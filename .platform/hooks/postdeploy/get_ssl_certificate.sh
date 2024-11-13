@@ -4,6 +4,8 @@ cd ../var/app/current/certbot
 
 rm -rf conf
 
+echo "Deleted conf directory"
+
 docker compose run --rm certbot \
   certonly \
   --webroot \
