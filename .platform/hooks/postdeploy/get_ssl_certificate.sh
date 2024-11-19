@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd ../var/app/current/certbot
+cd certbot
 
 rm -rf conf
 
